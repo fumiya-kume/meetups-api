@@ -1,9 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace meetupsApi.JsonEntity
 {
     public class Event
     {
+        [Key]
+        public int event_id { get; set; }
         public string event_url { get; set; }
         public string event_type { get; set; }
         public string owner_nickname { get; set; }
@@ -13,7 +16,6 @@ namespace meetupsApi.JsonEntity
         public DateTime started_at { get; set; }
         public string hash_tag { get; set; }
         public string title { get; set; }
-        public int event_id { get; set; }
         public string lon { get; set; }
         public int waiting { get; set; }
         public int limit { get; set; }
