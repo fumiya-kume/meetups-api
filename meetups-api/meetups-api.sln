@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "meetups-api", "meetups-api\meetups-api.csproj", "{EC8B0DEC-2B00-413F-8DBD-12F0A69CF799}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "meetupsApi", "meetups-api\meetupsApi.csproj", "{EC8B0DEC-2B00-413F-8DBD-12F0A69CF799}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
