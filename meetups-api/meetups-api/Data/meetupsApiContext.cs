@@ -14,6 +14,6 @@ namespace meetupsApi.Models
         {
         }
 
-        public DbSet<meetupsApi.JsonEntity.Event> Event { get; set; }
+        public DbSet<Event> Event { get; set; }
     }
 }
