@@ -12,11 +12,11 @@ namespace meetupsApi.JsonEntity
         public string owner_nickname { get; set; }
         public Series series { get; set; }
         public DateTime updated_at { get; set; }
-        public string lat { get; set; }
+        public string lat { get; set; } = "";
         public DateTime started_at { get; set; }
         public string hash_tag { get; set; }
         public string title { get; set; }
-        public string lon { get; set; }
+        public string lon { get; set; } = "";
         public int waiting { get; set; }
         public int limit { get; set; }
         public int owner_id { get; set; }

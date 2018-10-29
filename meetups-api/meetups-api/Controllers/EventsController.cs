@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using meetupsApi.JsonEntity;
 using meetupsApi.Models;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace meetupsApi.Controllers
 {
@@ -121,6 +123,27 @@ namespace meetupsApi.Controllers
         private bool EventExists(int id)
         {
             return _context.Event.Any(e => e.event_id == id);
+        }
+
+        [HttpGet("Refresh")]
+        public async Task<IActionResult> RefreshEventListAsync()
+        {
+            for (int i = 0; i < 1; i++)
+            {
+                using (var client = new HttpClient())
+                {
+                    var url = $"https://connpass.com/api/v1/event/?start={1 + i * 100}";
+                    var result =  await client.GetAsync(url);
+                    var json = await result.Content.ReadAsStringAsync();
+                    var jsonResult = JsonConvert.DeserializeObject<ConnpassMeetupJson>(json);
+                    jsonResult.events.ToList().ForEach(eventEntity => {
+
+                        _context.Add(eventEntity);
+                        });
+                    this._context.SaveChanges();
+                }
+            }
+            return Ok();
         }
     }
 }

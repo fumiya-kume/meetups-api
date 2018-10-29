@@ -15,5 +15,6 @@ namespace meetupsApi.Models
         }
 
         public DbSet<Event> Event { get; set; }
+        public DbSet<Series> Series { get; set; }
     }
 }
