@@ -34,22 +34,31 @@ namespace meetupsApi.Tests.Repository
             var connpassData = await client.LoadConnpassDataAsync();
             Assert.NotNull(connpassData);
         }
+
+        [Fact]
+        async void Connpassの件数を指定してデータを取得することができる()
+        {
+            var client = new ConnpassClient();
+            var connpassData = await client.LoadConnpassDataAsync(99);
+            Assert.Equal(99, connpassData.events.Length);
+        }
+
     }
 
     public class ConnpassClient
     {
-        public async Task<string> loadJsonAwait()
+        public async Task<string> loadJsonAwait(int capacity = 100)
         {
             using (var client = new HttpClient())
             {
-                var response = await client.GetAsync("https://connpass.com/api/v1/event/");
+                var response = await client.GetAsync($"https://connpass.com/api/v1/event/?count={capacity}");
                 return await response.Content.ReadAsStringAsync();
             }
         }
 
-        public async Task<ConnpassMeetupJson> LoadConnpassDataAsync()
+        public async Task<ConnpassMeetupJson> LoadConnpassDataAsync(int capacity = 100)
         {
-            var json = await loadJsonAwait();
+            var json = await loadJsonAwait(capacity);
             if (string.IsNullOrEmpty(json))
             {
                 return null;
