@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using meetupsApi.JsonEntity;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace meetupsApi.Tests.Repository
@@ -24,6 +26,14 @@ namespace meetupsApi.Tests.Repository
             Assert.NotNull(json);
             Assert.NotEmpty(json);
         }
+
+        [Fact]
+        async void Connpassから受信したデータをパースすることができる()
+        {
+            var client = new ConpassClient();
+            var connpassData = await client.LoadConnpassDataAsync();
+            Assert.NotNull(connpassData);
+        }
     }
 
     public class ConpassClient
@@ -35,6 +45,16 @@ namespace meetupsApi.Tests.Repository
                 var response = await client.GetAsync("https://connpass.com/api/v1/event/");
                 return await response.Content.ReadAsStringAsync();
             }
+        }
+
+        public async Task<ConnpassMeetupJson> LoadConnpassDataAsync()
+        {
+            var json = await loadJsonAwait();
+            if (string.IsNullOrEmpty(json))
+            {
+                return null;
+            }
+            return JsonConvert.DeserializeObject<ConnpassMeetupJson>(json);
         }
     }
 }
