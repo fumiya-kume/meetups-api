@@ -22,16 +22,18 @@ namespace meetupsApi.Tests.Repository
             var client = new ConpassClient();
             var json = await client.loadJsonAwait();
             Assert.NotNull(json);
+            Assert.NotEmpty(json);
         }
     }
 
     public class ConpassClient
     {
-        public async Task<object> loadJsonAwait()
+        public async Task<string> loadJsonAwait()
         {
             using (var client = new HttpClient())
             {
-                return await client.GetAsync("https://connpass.com/api/v1/event/");
+                var response = await client.GetAsync("https://connpass.com/api/v1/event/");
+                return await response.Content.ReadAsStringAsync();
             }
         }
     }
