@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace meetupsApi.Tests.Repository
 {
-    public class ConnpassClient
+    public class ConnpassDatastore
     {
         private async Task<string> loadJsonAwait(int capacity = 100)
         {
