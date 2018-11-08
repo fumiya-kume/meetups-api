@@ -11,6 +11,7 @@ namespace meetupsApi.Tests.Repository
         {
             using (var client = new HttpClient())
             {
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("C#/ASP.net Core");
                 var response = await client.GetAsync($"https://connpass.com/api/v1/event/?count={capacity}");
                 return await response.Content.ReadAsStringAsync();
             }
