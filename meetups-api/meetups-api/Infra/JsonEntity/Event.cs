@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace meetupsApi.JsonEntity
@@ -18,7 +18,7 @@ namespace meetupsApi.JsonEntity
         public string title { get; set; }
         public string lon { get; set; } = "";
         public int waiting { get; set; }
-        public int limit { get; set; }
+        public int? limit { get; set; } = 0;
         public int owner_id { get; set; }
         public string owner_display_name { get; set; }
         public string description { get; set; }
