@@ -17,26 +17,4 @@ namespace meetupsApi.Tests.Domain.Usecase
             connpassDataRepositoryMoq.Verify(obj => obj.RefreshData(), Times.Once);
         }
     }
-
-    public interface IConnpassDataRepository
-    {
-        void RefreshData();
-    }
-
-    public class RefreshConnpassDataUsecase
-    {
-        private IConnpassDataRepository _connpassDataRepository;
-
-        public RefreshConnpassDataUsecase(
-            IConnpassDataRepository connpassDataRepository
-        )
-        {
-            _connpassDataRepository = connpassDataRepository;
-        }
-
-        public void execute()
-        {
-            _connpassDataRepository.RefreshData();
-        }
-    }
 }
