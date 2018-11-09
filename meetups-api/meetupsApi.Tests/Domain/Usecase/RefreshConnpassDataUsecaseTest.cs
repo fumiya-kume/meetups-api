@@ -8,10 +8,13 @@ namespace meetupsApi.Tests.Domain.Usecase
     public class RefreshConnpassDataUsecaseTest
     {
         [Fact]
-        void コンパスのデータRepositoryを受け取り処理を進める()
+        void ユースケースが実行されたらコンパスのデータを更新する()
         {
             Mock<IConnpassDataRepository> connpassDataRepositoryMoq = new Mock<IConnpassDataRepository>();
+            connpassDataRepositoryMoq.Setup(obj => obj.RefreshData());
             var usecase = new RefreshConnpassDataUsecase(connpassDataRepositoryMoq.Object);
+            usecase.execute();
+            connpassDataRepositoryMoq.Verify(obj => obj.RefreshData(), Times.Once);
         }
     }
 
@@ -33,6 +36,7 @@ namespace meetupsApi.Tests.Domain.Usecase
 
         public void execute()
         {
+            _connpassDataRepository.RefreshData();
         }
     }
 }
