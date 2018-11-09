@@ -22,6 +22,5 @@ namespace meetupsApi.Tests.Repository
             var connpassData = await client.LoadConnpassDataAsync(99);
             Assert.Equal(99, connpassData.events.Length);
         }
-
     }
 }
