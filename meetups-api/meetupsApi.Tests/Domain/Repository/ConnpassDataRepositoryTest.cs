@@ -6,6 +6,7 @@ using meetupsApi.Domain.Entity;
 using meetupsApi.JsonEntity;
 using meetupsApi.Tests.Domain.Usecase;
 using meetupsApi.Tests.Repository;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc;
 using Moq;
 using Xunit;
 
@@ -137,17 +138,21 @@ namespace meetupsApi.Tests.Domain.Repository
             var item = connpassDataRepository.convert(targetData);
             Assert.Equal("", item.RventDescription);
         }
-    }
 
-        [Theory]
-        [InlineData("0.0", 0.0d)]
-        [InlineData("1.1", 1.1d)]
-        void Doubleに変換する(string source, double result)
+        [Fact]
+        void イベントの開催される場所がEntityに含まれる()
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
             var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
-            var actual = connpassDataRepository.ToDouble(source);
-            Assert.Equal(result, actual);
+
+            var targetData = new ConnpassEvent
+            {
+                lon = "123.2",
+                lat = "456.4"
+            };
+            var item = connpassDataRepository.convert(targetData);
+            Assert.Equal(targetData.lon, item.Lon.ToString());
+            Assert.Equal(targetData.lat, item.Lat.ToString());
         }
     }
 
@@ -172,10 +177,7 @@ namespace meetupsApi.Tests.Domain.Repository
             return jsonData.ConnpassEvents.Select(item => convert(item));
         }
 
-        public double ToDouble(
-            string value,
-            double defaultValue = double.MaxValue
-        ) => double.TryParse(value, out var i) ? double.Parse(value) : defaultValue;
+        
 
         public ConnpassEventDataEntity convert(ConnpassEvent targetData)
         {
@@ -183,6 +185,14 @@ namespace meetupsApi.Tests.Domain.Repository
             entity.EventTitle = targetData.title ?? "";
             entity.EventUrl = targetData.event_url ?? "";
             entity.RventDescription = targetData.description ?? "";
+
+            double ToDouble(
+                string value,
+                double defaultValue = double.MaxValue
+            ) => double.TryParse(value, out var i) ? double.Parse(value) : defaultValue;
+
+            entity.Lon = ToDouble(targetData.lon);
+            entity.Lat = ToDouble(targetData.lat);
             return entity;
         }
     }
