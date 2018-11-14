@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using meetupsApi.Domain.Entity;
+using Microsoft.EntityFrameworkCore;
 using meetupsApi.JsonEntity;
 
 namespace meetupsApi.Models
@@ -10,7 +11,6 @@ namespace meetupsApi.Models
         {
         }
 
-        public DbSet<ConnpassEvent> Event { get; set; }
-        public DbSet<Series> Series { get; set; }
+        public DbSet<ConnpassEventDataEntity> ConnpassEventDataEntities { get; set; }
     }
 }
