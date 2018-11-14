@@ -1,11 +1,12 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using meetupsApi.JsonEntity;
+using meetupsApi.Tests.Domain.Repository;
 using Newtonsoft.Json;
 
 namespace meetupsApi.Tests.Repository
 {
-    public class ConnpassDatastore
+    public class ConnpassDatastore : IConnpassDataStore
     {
         private async Task<string> loadJsonAwait(int capacity = 100)
         {
@@ -24,6 +25,7 @@ namespace meetupsApi.Tests.Repository
             {
                 return null;
             }
+
             return JsonConvert.DeserializeObject<ConnpassMeetupJson>(json);
         }
     }
