@@ -13,7 +13,7 @@ namespace meetupsApi.Tests.Domain.Usecase
 
         public void execute()
         {
-            _connpassReadOnlyDataRepository.RefreshData();
+            _connpassReadOnlyDataRepository.LoadConnpassData();
         }
     }
 }

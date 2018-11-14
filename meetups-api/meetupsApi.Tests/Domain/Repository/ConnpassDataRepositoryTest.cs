@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using meetupsApi.JsonEntity;
 using meetupsApi.Tests.Domain.Usecase;
+using meetupsApi.Tests.Repository;
 using Moq;
 using Xunit;
 
@@ -31,7 +32,7 @@ namespace meetupsApi.Tests.Domain.Repository
             var dummyConnpassData = new ConnpassMeetupJson();
             dataStoreMoq.Setup(obj => obj.LoadConnpassDataAsync(100)).ReturnsAsync(dummyConnpassData);
             var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
-            connpassDataRepository.RefreshData();
+            connpassDataRepository.LoadConnpassData();
             dataStoreMoq.Verify(obj => obj.LoadConnpassDataAsync(100), Times.Once);
         }
     }
@@ -40,19 +41,21 @@ namespace meetupsApi.Tests.Domain.Repository
     {
         Task<ConnpassMeetupJson> LoadConnpassDataAsync(int capacity = 100);
     }
-
+    
+    
     public class ConnpassReadOnlyDataRepository : IConnpassReadOnlyDataRepository
     {
-        private IConnpassDataStore _connpassDataStore;
 
-        public ConnpassReadOnlyDataRepository(IConnpassDataStore dataStore)
+        private readonly IConnpassDataStore _connpassDatastore;
+
+        public ConnpassReadOnlyDataRepository(IConnpassDataStore connpassDatastore)
         {
-            _connpassDataStore = dataStore;
+            _connpassDatastore = connpassDatastore;
         }
 
-        public void RefreshData()
+        public async Task<ConnpassMeetupJson> LoadConnpassData()
         {
-            _connpassDataStore.LoadConnpassDataAsync(100);
+            return await _connpassDatastore.LoadConnpassDataAsync(100);
         }
     }
 }
