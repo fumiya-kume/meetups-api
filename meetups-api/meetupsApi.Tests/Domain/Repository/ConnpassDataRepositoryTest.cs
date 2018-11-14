@@ -87,11 +87,27 @@ namespace meetupsApi.Tests.Domain.Repository
             var dummyEventUrl = "www.yahoo.co.jp";
             var targetData = new ConnpassEvent
             {
+                event_url= dummyEventUrl
+            };
+            ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
+            Assert.Equal(dummyEventUrl, item.EventUrl);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        void イベントURLが存在しない場合は空文字が入っている(string dummyEventUrl)
+        {
+            var dataStoreMoq = new Mock<IConnpassDataStore>();
+            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var targetData = new ConnpassEvent
+            {
                 title = dummyEventUrl
             };
             ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
-            Assert.Equal(dummyEventUrl, item.EventTitle);
+            Assert.Equal("", item.EventTitle);
         }
+        
     }
 
     public interface IConnpassDataStore
@@ -119,6 +135,7 @@ namespace meetupsApi.Tests.Domain.Repository
         {
             var entity = new ConnpassEventDataEntity();
             entity.EventTitle = targetData.title ?? "";
+            entity.EventUrl = targetData.event_url ?? "";
             return entity;
         }
     }
