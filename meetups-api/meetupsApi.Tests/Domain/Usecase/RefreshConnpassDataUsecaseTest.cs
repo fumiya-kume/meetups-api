@@ -10,9 +10,13 @@ namespace meetupsApi.Tests.Domain.Usecase
         [Fact]
         void 実行時にコンパスからデータを取得する()
         {
-            Mock<IConnpassReadOnlyDataRepository> connpassDataRepositoryMoq = new Mock<IConnpassReadOnlyDataRepository>();
+            var connpassDataRepositoryMoq = new Mock<IConnpassReadOnlyDataRepository>();
+            var connpassDatabaseRepositoryMoq = new Mock<IConnpassDatabaseRepository>();
             connpassDataRepositoryMoq.Setup(obj => obj.LoadConnpassData());
-            var usecase = new RefreshConnpassDataUsecase(connpassDataRepositoryMoq.Object);
+            var usecase = new RefreshConnpassDataUsecase(
+                connpassDataRepositoryMoq.Object,
+                connpassDatabaseRepositoryMoq.Object
+            );
             usecase.execute();
             connpassDataRepositoryMoq.Verify(obj => obj.LoadConnpassData(), Times.Once);
         }
