@@ -1,6 +1,6 @@
 namespace meetupsApi.Tests.Domain.Usecase
 {
-    public interface IConnpassDataRepository
+    public interface IConnpassReadOnlyDataRepository
     {
         void RefreshData();
     }

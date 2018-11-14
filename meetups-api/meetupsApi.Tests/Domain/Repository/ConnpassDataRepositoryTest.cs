@@ -12,15 +12,15 @@ namespace meetupsApi.Tests.Domain.Repository
         void ConnpassDataRepositoryが存在する()
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
         }
 
         [Fact]
         void ConnpassDataRepositoryはIConnpassDataRepositoryを実装する()
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassDataRepository(dataStoreMoq.Object);
-            var actual = connpassDataRepository as IConnpassDataRepository;
+            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var actual = connpassDataRepository as IConnpassReadOnlyDataRepository;
             Assert.NotNull(actual);
         }
 
@@ -30,7 +30,7 @@ namespace meetupsApi.Tests.Domain.Repository
             var dataStoreMoq = new Mock<IConnpassDataStore>();
             var dummyConnpassData = new ConnpassMeetupJson();
             dataStoreMoq.Setup(obj => obj.LoadConnpassDataAsync(100)).ReturnsAsync(dummyConnpassData);
-            var connpassDataRepository = new ConnpassDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
             connpassDataRepository.RefreshData();
             dataStoreMoq.Verify(obj => obj.LoadConnpassDataAsync(100), Times.Once);
         }
@@ -41,11 +41,11 @@ namespace meetupsApi.Tests.Domain.Repository
         Task<ConnpassMeetupJson> LoadConnpassDataAsync(int capacity = 100);
     }
 
-    public class ConnpassDataRepository : IConnpassDataRepository
+    public class ConnpassReadOnlyDataRepository : IConnpassReadOnlyDataRepository
     {
         private IConnpassDataStore _connpassDataStore;
 
-        public ConnpassDataRepository(IConnpassDataStore dataStore)
+        public ConnpassReadOnlyDataRepository(IConnpassDataStore dataStore)
         {
             _connpassDataStore = dataStore;
         }
