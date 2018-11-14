@@ -154,6 +154,20 @@ namespace meetupsApi.Tests.Domain.Repository
             Assert.Equal(targetData.lon, item.Lon.ToString());
             Assert.Equal(targetData.lat, item.Lat.ToString());
         }
+
+        [Fact]
+        void イベントIDがEntityに含まれている()
+        {
+            var dataStoreMoq = new Mock<IConnpassDataStore>();
+            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var dummyEventId = 123;
+            var targetData = new ConnpassEvent
+            {
+                event_id = dummyEventId
+            };
+            var item = connpassDataRepository.convert(targetData);
+            Assert.Equal(dummyEventId, item.Id);
+        }
     }
 
     public interface IConnpassDataStore
@@ -177,11 +191,11 @@ namespace meetupsApi.Tests.Domain.Repository
             return jsonData.ConnpassEvents.Select(item => convert(item));
         }
 
-        
 
         public ConnpassEventDataEntity convert(ConnpassEvent targetData)
         {
             var entity = new ConnpassEventDataEntity();
+            entity.Id = targetData.event_id;
             entity.EventTitle = targetData.title ?? "";
             entity.EventUrl = targetData.event_url ?? "";
             entity.RventDescription = targetData.description ?? "";
