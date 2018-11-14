@@ -9,7 +9,7 @@ namespace meetupsApi.JsonEntity
         public int id { get; set; }
         public string url { get; set; }
         public string title { get; set; }
-        public ICollection<Event> Events { get; set; }
+        public ICollection<ConnpassEvent> Events { get; set; }
     }
 
 

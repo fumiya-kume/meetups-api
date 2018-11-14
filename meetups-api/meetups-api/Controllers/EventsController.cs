@@ -25,7 +25,7 @@ namespace meetupsApi.Controllers
 
         // GET: api/Events
         [HttpGet]
-        public IEnumerable<Event> GetEvent()
+        public IEnumerable<ConnpassEvent> GetEvent()
         {
             return _context.Event;
         }
@@ -51,19 +51,19 @@ namespace meetupsApi.Controllers
 
         // PUT: api/Events/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEvent([FromRoute] int id, [FromBody] Event @event)
+        public async Task<IActionResult> PutEvent([FromRoute] int id, [FromBody] ConnpassEvent connpassEvent)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != @event.event_id)
+            if (id != connpassEvent.event_id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(@event).State = EntityState.Modified;
+            _context.Entry(connpassEvent).State = EntityState.Modified;
 
             try
             {
@@ -86,17 +86,17 @@ namespace meetupsApi.Controllers
 
         // POST: api/Events
         [HttpPost]
-        public async Task<IActionResult> PostEvent([FromBody] Event @event)
+        public async Task<IActionResult> PostEvent([FromBody] ConnpassEvent connpassEvent)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Event.Add(@event);
+            _context.Event.Add(connpassEvent);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEvent", new { id = @event.event_id }, @event);
+            return CreatedAtAction("GetEvent", new { id = connpassEvent.event_id }, connpassEvent);
         }
 
         // DELETE: api/Events/5
@@ -136,7 +136,7 @@ namespace meetupsApi.Controllers
                     var result =  await client.GetAsync(url);
                     var json = await result.Content.ReadAsStringAsync();
                     var jsonResult = JsonConvert.DeserializeObject<ConnpassMeetupJson>(json);
-                    jsonResult.events.ToList().ForEach(eventEntity => {
+                    jsonResult.ConnpassEvents.ToList().ForEach(eventEntity => {
 
                         _context.Add(eventEntity);
                         });

@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using meetupsApi.Domain.Entity;
 using meetupsApi.JsonEntity;
 using meetupsApi.Tests.Domain.Usecase;
 using meetupsApi.Tests.Repository;
@@ -35,6 +39,15 @@ namespace meetupsApi.Tests.Domain.Repository
             connpassDataRepository.LoadConnpassData();
             dataStoreMoq.Verify(obj => obj.LoadConnpassDataAsync(100), Times.Once);
         }
+
+        [Fact]
+        void JsonDataをEntityに変換することができる()
+        {
+            var dataStoreMoq = new Mock<IConnpassDataStore>();
+            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var targetData = new ConnpassEvent();
+            ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);   
+        }
     }
 
     public interface IConnpassDataStore
@@ -53,9 +66,15 @@ namespace meetupsApi.Tests.Domain.Repository
             _connpassDatastore = connpassDatastore;
         }
 
-        public async Task<ConnpassMeetupJson> LoadConnpassData()
+        public async Task<IEnumerable<ConnpassEventDataEntity>> LoadConnpassData()
         {
-            return await _connpassDatastore.LoadConnpassDataAsync(100);
+            var jsonData = await _connpassDatastore.LoadConnpassDataAsync(100);
+            return jsonData.ConnpassEvents.Select(item => convert(item));
+        }
+
+        public ConnpassEventDataEntity convert(ConnpassEvent targetData)
+        {
+            return new ConnpassEventDataEntity();
         }
     }
 }

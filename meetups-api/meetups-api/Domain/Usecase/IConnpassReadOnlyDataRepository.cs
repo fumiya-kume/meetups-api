@@ -1,10 +1,12 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using meetupsApi.Domain.Entity;
 using meetupsApi.JsonEntity;
 
 namespace meetupsApi.Tests.Domain.Usecase
 {
     public interface IConnpassReadOnlyDataRepository
     {
-        Task<ConnpassMeetupJson> LoadConnpassData();
+        Task<IEnumerable<ConnpassEventDataEntity>> LoadConnpassData();
     }
 }

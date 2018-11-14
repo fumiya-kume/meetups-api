@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace meetupsApi.JsonEntity
 {
-    public class Event
+    public class ConnpassEvent
     {
         [Key]
         public int event_id { get; set; }
