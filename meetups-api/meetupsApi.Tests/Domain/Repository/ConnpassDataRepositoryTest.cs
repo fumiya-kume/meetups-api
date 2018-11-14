@@ -87,7 +87,7 @@ namespace meetupsApi.Tests.Domain.Repository
             var dummyEventUrl = "www.yahoo.co.jp";
             var targetData = new ConnpassEvent
             {
-                event_url= dummyEventUrl
+                event_url = dummyEventUrl
             };
             ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
             Assert.Equal(dummyEventUrl, item.EventUrl);
@@ -119,7 +119,23 @@ namespace meetupsApi.Tests.Domain.Repository
                 description = dummmyEventDescription
             };
             var item = connpassDataRepository.convert(targetData);
-            Assert.Equal(dummmyEventDescription,item.RventDescription);
+            Assert.Equal(dummmyEventDescription, item.RventDescription);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        void イベント詳細に不正な値が含まれているときはから文字が返ってくる(string dummmyEventDescription)
+        {
+            var dataStoreMoq = new Mock<IConnpassDataStore>();
+            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+
+            var targetData = new ConnpassEvent
+            {
+                description = dummmyEventDescription
+            };
+            var item = connpassDataRepository.convert(targetData);
+            Assert.Equal("", item.RventDescription);
         }
     }
 
@@ -149,7 +165,7 @@ namespace meetupsApi.Tests.Domain.Repository
             var entity = new ConnpassEventDataEntity();
             entity.EventTitle = targetData.title ?? "";
             entity.EventUrl = targetData.event_url ?? "";
-            entity.RventDescription = targetData.description;
+            entity.RventDescription = targetData.description ?? "";
             return entity;
         }
     }
