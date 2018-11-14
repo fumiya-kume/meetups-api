@@ -139,6 +139,18 @@ namespace meetupsApi.Tests.Domain.Repository
         }
     }
 
+        [Theory]
+        [InlineData("0.0", 0.0d)]
+        [InlineData("1.1", 1.1d)]
+        void Doubleに変換する(string source, double result)
+        {
+            var dataStoreMoq = new Mock<IConnpassDataStore>();
+            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var actual = connpassDataRepository.ToDouble(source);
+            Assert.Equal(result, actual);
+        }
+    }
+
     public interface IConnpassDataStore
     {
         Task<ConnpassMeetupJson> LoadConnpassDataAsync(int capacity = 100);
@@ -159,6 +171,11 @@ namespace meetupsApi.Tests.Domain.Repository
             var jsonData = await _connpassDatastore.LoadConnpassDataAsync(100);
             return jsonData.ConnpassEvents.Select(item => convert(item));
         }
+
+        public double ToDouble(
+            string value,
+            double defaultValue = double.MaxValue
+        ) => double.TryParse(value, out var i) ? double.Parse(value) : defaultValue;
 
         public ConnpassEventDataEntity convert(ConnpassEvent targetData)
         {
