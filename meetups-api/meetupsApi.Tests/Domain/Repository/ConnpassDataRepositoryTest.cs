@@ -107,7 +107,20 @@ namespace meetupsApi.Tests.Domain.Repository
             ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
             Assert.Equal("", item.EventTitle);
         }
-        
+
+        [Fact]
+        void イベント詳細がEntityに含まれる()
+        {
+            var dataStoreMoq = new Mock<IConnpassDataStore>();
+            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var dummmyEventDescription = "Hello";
+            var targetData = new ConnpassEvent
+            {
+                description = dummmyEventDescription
+            };
+            var item = connpassDataRepository.convert(targetData);
+            Assert.Equal(dummmyEventDescription,item.RventDescription);
+        }
     }
 
     public interface IConnpassDataStore
@@ -136,6 +149,7 @@ namespace meetupsApi.Tests.Domain.Repository
             var entity = new ConnpassEventDataEntity();
             entity.EventTitle = targetData.title ?? "";
             entity.EventUrl = targetData.event_url ?? "";
+            entity.RventDescription = targetData.description;
             return entity;
         }
     }
