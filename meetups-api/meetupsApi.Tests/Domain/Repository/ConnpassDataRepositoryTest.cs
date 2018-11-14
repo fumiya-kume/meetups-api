@@ -46,7 +46,21 @@ namespace meetupsApi.Tests.Domain.Repository
             var dataStoreMoq = new Mock<IConnpassDataStore>();
             var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
             var targetData = new ConnpassEvent();
-            ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);   
+            ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
+        }
+
+        [Fact]
+        void 変換されたDomainEntityにはタイトルが保存されている()
+        {
+            var dataStoreMoq = new Mock<IConnpassDataStore>();
+            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var dummyTitle = "";
+            var targetData = new ConnpassEvent
+            {
+                title = dummyTitle
+            };
+            ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
+            Assert.Equal(dummyTitle, item.EventTitle);
         }
     }
 
@@ -54,11 +68,10 @@ namespace meetupsApi.Tests.Domain.Repository
     {
         Task<ConnpassMeetupJson> LoadConnpassDataAsync(int capacity = 100);
     }
-    
-    
+
+
     public class ConnpassReadOnlyDataRepository : IConnpassReadOnlyDataRepository
     {
-
         private readonly IConnpassDataStore _connpassDatastore;
 
         public ConnpassReadOnlyDataRepository(IConnpassDataStore connpassDatastore)
@@ -74,7 +87,9 @@ namespace meetupsApi.Tests.Domain.Repository
 
         public ConnpassEventDataEntity convert(ConnpassEvent targetData)
         {
-            return new ConnpassEventDataEntity();
+            var entity = new ConnpassEventDataEntity();
+            entity.EventTitle = targetData.title;
+            return entity;
         }
     }
 }
