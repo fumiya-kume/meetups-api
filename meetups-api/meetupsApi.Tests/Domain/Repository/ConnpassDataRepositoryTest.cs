@@ -117,7 +117,7 @@ namespace meetupsApi.Tests.Domain.Repository
                 description = dummmyEventDescription
             };
             var item = connpassDataRepository.convert(targetData);
-            Assert.Equal(dummmyEventDescription, item.RventDescription);
+            Assert.Equal(dummmyEventDescription, item.EventDescription);
         }
 
         [Theory]
@@ -133,7 +133,7 @@ namespace meetupsApi.Tests.Domain.Repository
                 description = dummmyEventDescription
             };
             var item = connpassDataRepository.convert(targetData);
-            Assert.Equal("", item.RventDescription);
+            Assert.Equal("", item.EventDescription);
         }
 
         [Fact]

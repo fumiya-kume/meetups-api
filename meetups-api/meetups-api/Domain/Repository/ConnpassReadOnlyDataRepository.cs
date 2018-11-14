@@ -29,7 +29,7 @@ namespace meetupsApi.Tests.Domain.Repository
             entity.Id = targetData.event_id;
             entity.EventTitle = targetData.title ?? "";
             entity.EventUrl = targetData.event_url ?? "";
-            entity.RventDescription = targetData.description ?? "";
+            entity.EventDescription = targetData.description ?? "";
 
             double ToDouble(
                 string value,

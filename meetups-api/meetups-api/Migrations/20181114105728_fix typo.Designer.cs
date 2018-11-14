@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using meetupsApi.Models;
 
 namespace meetupsApi.Migrations
 {
     [DbContext(typeof(meetupsApiContext))]
-    partial class meetupsApiContextModelSnapshot : ModelSnapshot
+    [Migration("20181114105728_fix typo")]
+    partial class fixtypo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
