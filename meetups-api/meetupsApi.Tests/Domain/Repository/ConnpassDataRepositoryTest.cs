@@ -78,6 +78,20 @@ namespace meetupsApi.Tests.Domain.Repository
             ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
             Assert.Equal("", item.EventTitle);
         }
+
+        [Fact]
+        void 変換されたEntityにはURLが保存されている()
+        {
+            var dataStoreMoq = new Mock<IConnpassDataStore>();
+            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var dummyEventUrl = "www.yahoo.co.jp";
+            var targetData = new ConnpassEvent
+            {
+                title = dummyEventUrl
+            };
+            ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
+            Assert.Equal(dummyEventUrl, item.EventTitle);
+        }
     }
 
     public interface IConnpassDataStore
