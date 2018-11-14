@@ -1,3 +1,6 @@
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace meetupsApi.Tests.Domain.Usecase
 {
     public class RefreshConnpassDataUsecase
@@ -14,9 +17,10 @@ namespace meetupsApi.Tests.Domain.Usecase
             _connpassDatabaseRepository = connpassDatabaseRepository;
         }
 
-        public void execute()
+        public async Task execute()
         {
-            _connpassReadOnlyDataRepository.LoadConnpassData();
+            var data = await _connpassReadOnlyDataRepository.LoadConnpassData();
+            _connpassDatabaseRepository.SaveEventData(data);
         }
     }
 }
