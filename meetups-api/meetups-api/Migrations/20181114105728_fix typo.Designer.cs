@@ -8,7 +8,7 @@ using meetupsApi.Models;
 
 namespace meetupsApi.Migrations
 {
-    [DbContext(typeof(meetupsApiContext))]
+    [DbContext(typeof(MeetupsApiContext))]
     [Migration("20181114105728_fix typo")]
     partial class fixtypo
     {

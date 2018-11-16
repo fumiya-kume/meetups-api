@@ -7,7 +7,7 @@ using meetupsApi.Models;
 
 namespace meetupsApi.Migrations
 {
-    [DbContext(typeof(meetupsApiContext))]
+    [DbContext(typeof(MeetupsApiContext))]
     partial class meetupsApiContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

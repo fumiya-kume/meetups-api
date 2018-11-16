@@ -1,12 +1,12 @@
-﻿using meetupsApi.Domain.Entity;
+using meetupsApi.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 using meetupsApi.JsonEntity;
 
 namespace meetupsApi.Models
 {
-    public class meetupsApiContext : DbContext
+    public class MeetupsApiContext : DbContext, IMeetupsApiContext
     {
-        public meetupsApiContext (DbContextOptions<meetupsApiContext> options)
+        public MeetupsApiContext (DbContextOptions<MeetupsApiContext> options)
             : base(options)
         {
         }

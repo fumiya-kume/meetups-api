@@ -9,7 +9,7 @@ using meetupsApi.Models;
 
 namespace meetupsApi.Migrations
 {
-    [DbContext(typeof(meetupsApiContext))]
+    [DbContext(typeof(MeetupsApiContext))]
     [Migration("20181029084916_CreateEventTable")]
     partial class CreateEventTable
     {
