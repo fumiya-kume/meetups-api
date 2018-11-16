@@ -17,17 +17,6 @@ namespace meetupsApi.Tests.Repository.Data
     public class ConnpassDatabaseRepositoryTests
     {
         [Fact]
-        void ConnpassDatabaseRepoisitoryはDBContextを受け取る()
-        {
-            using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
-            {
-                var target = new ConnpassDatabaseRepository(mock.Context());
-
-                Assert.NotNull(target);
-            }
-        }
-
-        [Fact]
         void イベントデータを保存することができる()
         {
             using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
