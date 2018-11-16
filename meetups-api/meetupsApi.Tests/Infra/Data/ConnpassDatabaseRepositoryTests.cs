@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using meetupsApi.Domain.Entity;
@@ -18,17 +19,27 @@ namespace meetupsApi.Tests.Repository.Data
         [Fact]
         void ConnpassDatabaseRepoisitoryはDBContextを受け取る()
         {
-            var meetupApiContextMoq = new Mock<IMeetupsApiContext>();
-            var target = new ConnpassDatabaseRepository(meetupApiContextMoq.Object);
+            using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
+            {
+                var target = new ConnpassDatabaseRepository(mock.Context());
 
-            Assert.NotNull(target);
+                Assert.NotNull(target);
+            }
         }
 
         [Fact]
         void イベントデータを保存することができる()
         {
-            var runnner = new InmemoryDBTestMock<MeetupsApiContext>();
-            runnner.Context().Database.EnsureCreated();
+            using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
+            {
+                var connpassDatabaseRepository = new ConnpassDatabaseRepository(mock.Context());
+                var dummyEventData = new List<ConnpassEventDataEntity>();
+                var entity = new ConnpassEventDataEntity();
+                dummyEventData.Add(entity);
+                connpassDatabaseRepository.SaveEventData(dummyEventData);
+
+                Assert.Equal(1, mock.Context().ConnpassEventDataEntities.Count());
+            }
         }
 
         [Fact]
@@ -120,7 +131,7 @@ namespace meetupsApi.Tests.Repository.Data
                 context.SaveChanges();
 
                 Assert.Equal(2, context2.ConnpassEventDataEntities.Count());
-            
+
                 testMock.Dispose();
             }
         }
@@ -149,9 +160,9 @@ public class InmemoryDBTestMock<T> : IDisposable where T : DbContext
 
 internal class ConnpassDatabaseRepository : IConnpassDatabaseRepository
 {
-    private readonly IMeetupsApiContext _meetupsApiContext;
+    private readonly MeetupsApiContext _meetupsApiContext;
 
-    public ConnpassDatabaseRepository(IMeetupsApiContext meetupsApiContext)
+    public ConnpassDatabaseRepository(MeetupsApiContext meetupsApiContext)
     {
         _meetupsApiContext = meetupsApiContext;
     }
@@ -168,6 +179,7 @@ internal class ConnpassDatabaseRepository : IConnpassDatabaseRepository
             }
 
             _meetupsApiContext.ConnpassEventDataEntities.Add(entity);
+            _meetupsApiContext.SaveChanges();
         }
     }
 }
