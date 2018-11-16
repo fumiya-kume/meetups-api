@@ -5,6 +5,6 @@ namespace meetupsApi.Tests.Domain.Usecase
 {
     public interface IConnpassDatabaseRepository
     {
-        void SaveEventData(IEnumerable<ConnpassEventDataEntity> dummyData);
+        void SaveEventData(IEnumerable<ConnpassEventDataEntity> eventDataList);
     }
 }

@@ -1,4 +1,4 @@
-using meetupsApi.Domain.Entity;
+﻿using meetupsApi.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 using meetupsApi.JsonEntity;
 
