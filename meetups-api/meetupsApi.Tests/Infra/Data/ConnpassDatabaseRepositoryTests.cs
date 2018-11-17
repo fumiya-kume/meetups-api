@@ -1,14 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using meetupsApi.Domain.Entity;
 using meetupsApi.JsonEntity;
 using meetupsApi.Models;
-using meetupsApi.Tests.Domain.Usecase;
-using Microsoft.Data.Sqlite;
 using Microsoft.DotNet.PlatformAbstractions;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 
@@ -206,54 +202,6 @@ namespace meetupsApi.Tests.Repository.Data
 
                 testMock.Dispose();
             }
-        }
-    }
-}
-
-public class InmemoryDbTestMock<T> : IDisposable where T : DbContext
-{
-    private static readonly SqliteConnection Connection = new SqliteConnection("DataSource=:memory:");
-    private readonly DbContextOptions _contextOptions = new DbContextOptionsBuilder<T>().UseSqlite(Connection).Options;
-
-    public InmemoryDbTestMock()
-    {
-        Connection.Open();
-        Context().Database.EnsureCreated();
-    }
-
-    public T Context() => (T) Activator.CreateInstance(typeof(T), _contextOptions);
-
-    public void Dispose()
-    {
-        Context().Database.EnsureDeleted();
-        Connection.Close();
-    }
-}
-
-internal class ConnpassDatabaseRepository : IConnpassDatabaseRepository
-{
-    private readonly MeetupsApiContext _meetupsApiContext;
-
-    public ConnpassDatabaseRepository(MeetupsApiContext meetupsApiContext)
-    {
-        _meetupsApiContext = meetupsApiContext;
-    }
-
-    public bool exitsEntity(ConnpassEventDataEntity entity) =>
-        _meetupsApiContext.ConnpassEventDataEntities.Count(item => item.Id == entity.Id) != 0;
-
-    public void SaveEventData(IEnumerable<ConnpassEventDataEntity> eventDataList)
-    {
-        foreach (var entity in eventDataList)
-        {
-            if (exitsEntity(entity))
-            {
-                _meetupsApiContext.ConnpassEventDataEntities.Update(entity);
-                return;
-            }
-
-            _meetupsApiContext.ConnpassEventDataEntities.Add(entity);
-            _meetupsApiContext.SaveChanges();
         }
     }
 }
