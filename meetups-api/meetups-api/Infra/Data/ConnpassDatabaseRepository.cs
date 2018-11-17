@@ -4,7 +4,7 @@ using meetupsApi.Domain.Entity;
 using meetupsApi.Models;
 using meetupsApi.Tests.Domain.Usecase;
 
-internal class ConnpassDatabaseRepository : IConnpassDatabaseRepository
+public class ConnpassDatabaseRepository : IConnpassDatabaseRepository
 {
     private readonly MeetupsApiContext _meetupsApiContext;
 
