@@ -29,7 +29,7 @@ namespace meetupsApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddDbContext<meetupsApiContext>(options =>
+            services.AddDbContext<MeetupsApiContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("meetupsApiContext")));
         }
 

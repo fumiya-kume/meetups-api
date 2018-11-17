@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using meetupsApi.Models;
 
 namespace meetupsApi.Migrations
 {
     [DbContext(typeof(MeetupsApiContext))]
-    partial class meetupsApiContextModelSnapshot : ModelSnapshot
+    [Migration("20181114103114_changemodel")]
+    partial class changemodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,8 +26,6 @@ namespace meetupsApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("EventDescription");
-
                     b.Property<string>("EventTitle");
 
                     b.Property<string>("EventUrl");
@@ -33,6 +33,8 @@ namespace meetupsApi.Migrations
                     b.Property<double>("Lat");
 
                     b.Property<double>("Lon");
+
+                    b.Property<string>("RventDescription");
 
                     b.HasKey("Id");
 
