@@ -32,6 +32,48 @@ namespace meetupsApi.Tests.Repository.Data
         }
 
         [Fact]
+        void すでに同じIDを持つデータ存在していることを判定することができる()
+        {
+            using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
+            {
+                var context = mock.Context();
+                var targetEntity = new ConnpassEventDataEntity();
+                context.ConnpassEventDataEntities.Add(targetEntity);
+                context.SaveChanges();
+
+                var target = new ConnpassDatabaseRepository(context);
+                Assert.True(target.exitsEntity(targetEntity));
+            }
+        }
+
+        [Fact]
+        void 同じIDを持ったデータが存在していないことを判定することができる()
+        {
+            using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
+            {
+                var target = new ConnpassDatabaseRepository(mock.Context());
+
+                var targetEntity = new ConnpassEventDataEntity
+                {
+                    Id = 114514
+                };
+
+                Assert.False(target.exitsEntity(targetEntity));
+
+                var writingEntityList = new List<ConnpassEventDataEntity>();
+                writingEntityList.Add(
+                    new ConnpassEventDataEntity
+                    {
+                        Id = 810
+                    }
+                );
+                target.SaveEventData(writingEntityList);
+                Assert.False(target.exitsEntity(targetEntity));
+            }
+        }
+
+                    {
+        [Fact]
         void DBにデータを保存することができる()
         {
             using (var testMock = new InmemoryDBTestMock<MeetupsApiContext>())
@@ -156,12 +198,14 @@ internal class ConnpassDatabaseRepository : IConnpassDatabaseRepository
         _meetupsApiContext = meetupsApiContext;
     }
 
+    public bool exitsEntity(ConnpassEventDataEntity entity) =>
+        _meetupsApiContext.ConnpassEventDataEntities.Count(item => item.Id == entity.Id) != 0;
+
     public void SaveEventData(IEnumerable<ConnpassEventDataEntity> eventDataList)
     {
         foreach (var entity in eventDataList)
         {
-            var exitsEntity = _meetupsApiContext.ConnpassEventDataEntities.Count(item => item.Id == entity.Id) != 0;
-            if (exitsEntity)
+            if (exitsEntity(entity))
             {
                 var oldItemList = _meetupsApiContext.ConnpassEventDataEntities.Where(item => item.Id == entity.Id);
                 _meetupsApiContext.ConnpassEventDataEntities.RemoveRange(oldItemList);
