@@ -207,8 +207,8 @@ internal class ConnpassDatabaseRepository : IConnpassDatabaseRepository
         {
             if (exitsEntity(entity))
             {
-                var oldItemList = _meetupsApiContext.ConnpassEventDataEntities.Where(item => item.Id == entity.Id);
-                _meetupsApiContext.ConnpassEventDataEntities.RemoveRange(oldItemList);
+                _meetupsApiContext.ConnpassEventDataEntities.Update(entity);
+                return;
             }
 
             _meetupsApiContext.ConnpassEventDataEntities.Add(entity);
