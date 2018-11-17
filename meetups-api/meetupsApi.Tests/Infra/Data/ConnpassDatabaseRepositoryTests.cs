@@ -72,7 +72,48 @@ namespace meetupsApi.Tests.Repository.Data
             }
         }
 
-                    {
+
+        [Fact]
+        void 重複するデータを書き込むと上書きされる()
+        {
+            using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
+            {
+                var connpassDatabaseRepository = new ConnpassDatabaseRepository(mock.Context());
+
+                var dummyEventData = new List<ConnpassEventDataEntity>();
+                var entity = new ConnpassEventDataEntity
+                {
+                    Id = 12,
+                    EventTitle = "タイトル１"
+                };
+
+                dummyEventData.Add(entity);
+
+                connpassDatabaseRepository.SaveEventData(dummyEventData);
+            }
+
+            using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
+            {
+                var connpassDatabaseRepository = new ConnpassDatabaseRepository(mock.Context());
+                var dummyEventData2 = new List<ConnpassEventDataEntity>();
+                var entity2 = new ConnpassEventDataEntity
+                {
+                    Id = 12,
+                    EventTitle = "タイトル２"
+                };
+                dummyEventData2.Add(entity2);
+
+                connpassDatabaseRepository.SaveEventData(dummyEventData2);
+
+                Assert.Equal(1, mock.Context().ConnpassEventDataEntities.Count());
+
+                Assert.Equal(
+                    entity2.EventTitle,
+                    mock.Context().ConnpassEventDataEntities.First().EventTitle
+                );
+            }
+        }
+
         [Fact]
         void DBにデータを保存することができる()
         {
