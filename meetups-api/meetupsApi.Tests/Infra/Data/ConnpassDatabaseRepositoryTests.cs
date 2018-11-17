@@ -19,7 +19,7 @@ namespace meetupsApi.Tests.Repository.Data
         [Fact]
         void イベントデータを保存することができる()
         {
-            using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
+            using (var mock = new InmemoryDbTestMock<MeetupsApiContext>())
             {
                 var connpassDatabaseRepository = new ConnpassDatabaseRepository(mock.Context());
                 var dummyEventData = new List<ConnpassEventDataEntity>();
@@ -34,7 +34,7 @@ namespace meetupsApi.Tests.Repository.Data
         [Fact]
         void すでに同じIDを持つデータ存在していることを判定することができる()
         {
-            using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
+            using (var mock = new InmemoryDbTestMock<MeetupsApiContext>())
             {
                 var context = mock.Context();
                 var targetEntity = new ConnpassEventDataEntity();
@@ -49,7 +49,7 @@ namespace meetupsApi.Tests.Repository.Data
         [Fact]
         void 同じIDを持ったデータが存在していないことを判定することができる()
         {
-            using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
+            using (var mock = new InmemoryDbTestMock<MeetupsApiContext>())
             {
                 var target = new ConnpassDatabaseRepository(mock.Context());
 
@@ -76,7 +76,7 @@ namespace meetupsApi.Tests.Repository.Data
         [Fact]
         void 重複するデータを書き込むと上書きされる()
         {
-            using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
+            using (var mock = new InmemoryDbTestMock<MeetupsApiContext>())
             {
                 var connpassDatabaseRepository = new ConnpassDatabaseRepository(mock.Context());
 
@@ -92,7 +92,7 @@ namespace meetupsApi.Tests.Repository.Data
                 connpassDatabaseRepository.SaveEventData(dummyEventData);
             }
 
-            using (var mock = new InmemoryDBTestMock<MeetupsApiContext>())
+            using (var mock = new InmemoryDbTestMock<MeetupsApiContext>())
             {
                 var connpassDatabaseRepository = new ConnpassDatabaseRepository(mock.Context());
                 var dummyEventData2 = new List<ConnpassEventDataEntity>();
@@ -117,7 +117,7 @@ namespace meetupsApi.Tests.Repository.Data
         [Fact]
         void DBにデータを保存することができる()
         {
-            using (var testMock = new InmemoryDBTestMock<MeetupsApiContext>())
+            using (var testMock = new InmemoryDbTestMock<MeetupsApiContext>())
             {
                 var context = testMock.Context();
 
@@ -138,7 +138,7 @@ namespace meetupsApi.Tests.Repository.Data
         [Fact]
         void DBに連続して書き込みを行ってもDisposableな実装にしていると以前のデータベースは消えている()
         {
-            using (var testMock = new InmemoryDBTestMock<MeetupsApiContext>())
+            using (var testMock = new InmemoryDbTestMock<MeetupsApiContext>())
             {
                 var context = testMock.Context();
 
@@ -154,7 +154,7 @@ namespace meetupsApi.Tests.Repository.Data
                 Assert.Equal(1, context.ConnpassEventDataEntities.Count());
             }
 
-            using (var testMock = new InmemoryDBTestMock<MeetupsApiContext>())
+            using (var testMock = new InmemoryDbTestMock<MeetupsApiContext>())
             {
                 var context = testMock.Context();
 
@@ -174,7 +174,7 @@ namespace meetupsApi.Tests.Repository.Data
         [Fact]
         void Disposableにしない場合は以前のデータが残っている()
         {
-            using (var testMock = new InmemoryDBTestMock<MeetupsApiContext>())
+            using (var testMock = new InmemoryDbTestMock<MeetupsApiContext>())
             {
                 var context = testMock.Context();
 
@@ -189,7 +189,7 @@ namespace meetupsApi.Tests.Repository.Data
 
                 Assert.Equal(1, context.ConnpassEventDataEntities.Count());
 
-                var mock2 = new InmemoryDBTestMock<MeetupsApiContext>();
+                var mock2 = new InmemoryDbTestMock<MeetupsApiContext>();
 
                 var context2 = mock2.Context();
 
@@ -210,12 +210,12 @@ namespace meetupsApi.Tests.Repository.Data
     }
 }
 
-public class InmemoryDBTestMock<T> : IDisposable where T : DbContext
+public class InmemoryDbTestMock<T> : IDisposable where T : DbContext
 {
     private static readonly SqliteConnection Connection = new SqliteConnection("DataSource=:memory:");
     private readonly DbContextOptions _contextOptions = new DbContextOptionsBuilder<T>().UseSqlite(Connection).Options;
 
-    public InmemoryDBTestMock()
+    public InmemoryDbTestMock()
     {
         Connection.Open();
         Context().Database.EnsureCreated();
