@@ -1,6 +1,8 @@
+using System.Globalization;
 using System.Linq;
 using meetupsApi.Domain.Entity;
 using meetupsApi.Models;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace meetupsApi.Tests.Helper
@@ -10,20 +12,19 @@ namespace meetupsApi.Tests.Helper
         [Fact]
         void DBにデータを保存することができる()
         {
-            using (var testMock = new InmemoryDbTestMock<MeetupsApiContext>())
+            using (var testMock = new InmemoryDbTestMock<DummyDbContext>())
             {
                 var context = testMock.Context();
 
-                var entity = new ConnpassEventDataEntity();
-                entity.EventTitle = "タイトル";
-                entity.EventDescription = "デスク";
-                entity.EventUrl = "www.yahoo.co.jp";
-                entity.Lat = 1.2;
-                entity.Lon = 1.3;
-                context.ConnpassEventDataEntities.Add(entity);
+                var person = new person
+                {
+                    Name = "Kuxu",
+                    Age = 10
+                };
+                context.Persons.Add(person);
                 context.SaveChanges();
 
-                Assert.Equal(1, context.ConnpassEventDataEntities.Count());
+                Assert.Equal(1, context.Persons.Count());
                 testMock.Dispose();
             }
         }
@@ -31,74 +32,55 @@ namespace meetupsApi.Tests.Helper
         [Fact]
         void DBに連続して書き込みを行ってもDisposableな実装にしていると以前のデータベースは消えている()
         {
-            using (var testMock = new InmemoryDbTestMock<MeetupsApiContext>())
+            using (var testMock = new InmemoryDbTestMock<DummyDbContext>())
             {
                 var context = testMock.Context();
 
-                var entity = new ConnpassEventDataEntity();
-                entity.EventTitle = "タイトル";
-                entity.EventDescription = "デスク";
-                entity.EventUrl = "www.yahoo.co.jp";
-                entity.Lat = 1.2;
-                entity.Lon = 1.3;
-                context.ConnpassEventDataEntities.Add(entity);
+                var person = new person
+                {
+                    Name = "Kuxu",
+                    Age = 10
+                };
+                context.Persons.Add(person);
                 context.SaveChanges();
 
-                Assert.Equal(1, context.ConnpassEventDataEntities.Count());
+                Assert.Equal(1, context.Persons.Count());
+                testMock.Dispose();
             }
 
-            using (var testMock = new InmemoryDbTestMock<MeetupsApiContext>())
+            using (var testMock = new InmemoryDbTestMock<DummyDbContext>())
             {
                 var context = testMock.Context();
 
-                var entity = new ConnpassEventDataEntity();
-                entity.EventTitle = "タイトル";
-                entity.EventDescription = "デスク";
-                entity.EventUrl = "www.yahoo.co.jp";
-                entity.Lat = 1.2;
-                entity.Lon = 1.3;
-                context.ConnpassEventDataEntities.Add(entity);
+                Assert.Equal(0, context.Persons.Count());
+
+                var person = new person
+                {
+                    Name = "Kuxu",
+                    Age = 10
+                };
+                context.Persons.Add(person);
                 context.SaveChanges();
 
-                Assert.Equal(1, context.ConnpassEventDataEntities.Count());
-            }
-        }
-
-        [Fact]
-        void Disposableにしない場合は以前のデータが残っている()
-        {
-            using (var testMock = new InmemoryDbTestMock<MeetupsApiContext>())
-            {
-                var context = testMock.Context();
-
-                var entity = new ConnpassEventDataEntity();
-                entity.EventTitle = "タイトル";
-                entity.EventDescription = "デスク";
-                entity.EventUrl = "www.yahoo.co.jp";
-                entity.Lat = 1.2;
-                entity.Lon = 1.3;
-                context.ConnpassEventDataEntities.Add(entity);
-                context.SaveChanges();
-
-                Assert.Equal(1, context.ConnpassEventDataEntities.Count());
-
-                var mock2 = new InmemoryDbTestMock<MeetupsApiContext>();
-
-                var context2 = mock2.Context();
-
-                var entity2 = new ConnpassEventDataEntity();
-                entity2.EventTitle = "タイトル";
-                entity2.EventDescription = "デスク";
-                entity2.EventUrl = "www.yahoo.co.jp";
-                entity2.Lat = 1.2;
-                entity2.Lon = 1.3;
-                context.ConnpassEventDataEntities.Add(entity2);
-                context.SaveChanges();
-
-                Assert.Equal(2, context2.ConnpassEventDataEntities.Count());
-
+                Assert.Equal(1, context.Persons.Count());
                 testMock.Dispose();
             }
         }
+    }
+
+    public class person
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+    }
+
+    public class DummyDbContext : DbContext
+    {
+        public DummyDbContext(DbContextOptions<DummyDbContext> options) : base(options)
+        {
+        }
+
+        public DbSet<person> Persons { get; set; }
     }
 }
