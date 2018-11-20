@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace meetupsApi.Tests.Domain.Usecase
 {
-    public class RefreshConnpassDataUsecase
+    public class RefreshConnpassDataUsecase : IRefreshConnpassDataUsecase
     {
         private IConnpassReadOnlyDataRepository _connpassReadOnlyDataRepository;
         private readonly IConnpassDatabaseRepository _connpassDatabaseRepository;

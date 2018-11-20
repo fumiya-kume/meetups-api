@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using meetupsApi.Domain.Entity;
 using meetupsApi.JsonEntity;
 using meetupsApi.Models;
 using Microsoft.DotNet.PlatformAbstractions;
+using Microsoft.EntityFrameworkCore.Storage;
 using Moq;
 using Xunit;
 
@@ -109,98 +111,22 @@ namespace meetupsApi.Tests.Repository.Data
                 );
             }
         }
-
+        
         [Fact]
-        void DBにデータを保存することができる()
+        async Task 最新の30件の勉強会を取得することができる()
         {
-            using (var testMock = new InmemoryDbTestMock<MeetupsApiContext>())
+            using (var mock = new InmemoryDbTestMock<MeetupsApiContext>())
             {
-                var context = testMock.Context();
-
-                var entity = new ConnpassEventDataEntity();
-                entity.EventTitle = "タイトル";
-                entity.EventDescription = "デスク";
-                entity.EventUrl = "www.yahoo.co.jp";
-                entity.Lat = 1.2;
-                entity.Lon = 1.3;
-                context.ConnpassEventDataEntities.Add(entity);
-                context.SaveChanges();
-
-                Assert.Equal(1, context.ConnpassEventDataEntities.Count());
-                testMock.Dispose();
-            }
-        }
-
-        [Fact]
-        void DBに連続して書き込みを行ってもDisposableな実装にしていると以前のデータベースは消えている()
-        {
-            using (var testMock = new InmemoryDbTestMock<MeetupsApiContext>())
-            {
-                var context = testMock.Context();
-
-                var entity = new ConnpassEventDataEntity();
-                entity.EventTitle = "タイトル";
-                entity.EventDescription = "デスク";
-                entity.EventUrl = "www.yahoo.co.jp";
-                entity.Lat = 1.2;
-                entity.Lon = 1.3;
-                context.ConnpassEventDataEntities.Add(entity);
-                context.SaveChanges();
-
-                Assert.Equal(1, context.ConnpassEventDataEntities.Count());
-            }
-
-            using (var testMock = new InmemoryDbTestMock<MeetupsApiContext>())
-            {
-                var context = testMock.Context();
-
-                var entity = new ConnpassEventDataEntity();
-                entity.EventTitle = "タイトル";
-                entity.EventDescription = "デスク";
-                entity.EventUrl = "www.yahoo.co.jp";
-                entity.Lat = 1.2;
-                entity.Lon = 1.3;
-                context.ConnpassEventDataEntities.Add(entity);
-                context.SaveChanges();
-
-                Assert.Equal(1, context.ConnpassEventDataEntities.Count());
-            }
-        }
-
-        [Fact]
-        void Disposableにしない場合は以前のデータが残っている()
-        {
-            using (var testMock = new InmemoryDbTestMock<MeetupsApiContext>())
-            {
-                var context = testMock.Context();
-
-                var entity = new ConnpassEventDataEntity();
-                entity.EventTitle = "タイトル";
-                entity.EventDescription = "デスク";
-                entity.EventUrl = "www.yahoo.co.jp";
-                entity.Lat = 1.2;
-                entity.Lon = 1.3;
-                context.ConnpassEventDataEntities.Add(entity);
-                context.SaveChanges();
-
-                Assert.Equal(1, context.ConnpassEventDataEntities.Count());
-
-                var mock2 = new InmemoryDbTestMock<MeetupsApiContext>();
-
-                var context2 = mock2.Context();
-
-                var entity2 = new ConnpassEventDataEntity();
-                entity2.EventTitle = "タイトル";
-                entity2.EventDescription = "デスク";
-                entity2.EventUrl = "www.yahoo.co.jp";
-                entity2.Lat = 1.2;
-                entity2.Lon = 1.3;
-                context.ConnpassEventDataEntities.Add(entity2);
-                context.SaveChanges();
-
-                Assert.Equal(2, context2.ConnpassEventDataEntities.Count());
-
-                testMock.Dispose();
+                using (var context = mock.Context())
+                {
+                    var dummyData = Enumerable.Range(1, 30).Select(id => new ConnpassEventDataEntity {Id = id});
+                    context.ConnpassEventDataEntities.AddRange(dummyData);
+                    context.SaveChanges();
+                    
+                    var connpassDatabaseRepository = new ConnpassDatabaseRepository(context);
+                    IList<ConnpassEventDataEntity> eventList = await connpassDatabaseRepository.loadEventList(10);
+                    Assert.Equal(10,eventList.Count);
+                }
             }
         }
     }

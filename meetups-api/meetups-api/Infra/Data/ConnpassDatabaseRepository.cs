@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using meetupsApi.Domain.Entity;
 using meetupsApi.Models;
 using meetupsApi.Tests.Domain.Usecase;
+using Microsoft.EntityFrameworkCore;
 
 public class ConnpassDatabaseRepository : IConnpassDatabaseRepository
 {
@@ -30,4 +32,7 @@ public class ConnpassDatabaseRepository : IConnpassDatabaseRepository
             _meetupsApiContext.SaveChanges();
         }
     }
+
+    public async Task<IList<ConnpassEventDataEntity>> loadEventList(int count)
+        => await _meetupsApiContext.ConnpassEventDataEntities.Take(count).ToListAsync();
 }
