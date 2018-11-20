@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,6 +31,13 @@ namespace meetupsApi
 
             services.AddDbContext<MeetupsApiContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("meetupsApiContext")));
+            // Domain Layer
+            services.AddTransient<IConnpassReadOnlyDataRepository, ConnpassReadOnlyDataRepository>();
+            services.AddSingleton<IConnpassDataStore, ConnpassDatastore>();
+            services.AddSingleton<IRefreshConnpassDataUsecase, RefreshConnpassDataUsecase>();
+
+            // InfraLayer
+            services.AddSingleton<IConnpassDatabaseRepository, ConnpassDatabaseRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
