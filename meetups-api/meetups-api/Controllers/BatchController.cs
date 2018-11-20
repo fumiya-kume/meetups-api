@@ -15,7 +15,7 @@ namespace meetups_api.Controllers
             _usecase = refreshConnpassDataUsecase;
         }
         
-        [HttpGet("/RefreshEventData")]
+        [HttpPost]
         void RefreshEventData()
         {
             _usecase.execute();
