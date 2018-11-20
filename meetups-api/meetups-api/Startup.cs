@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using meetupsApi.Models;
+using meetupsApi.Tests.Domain.Repository;
+using meetupsApi.Tests.Domain.Usecase;
+using meetupsApi.Tests.Repository;
 
 namespace meetupsApi
 {
@@ -30,7 +26,7 @@ namespace meetupsApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<MeetupsApiContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("meetupsApiContext")));
+                options.UseSqlServer(Configuration.GetConnectionString("meetupsApiContext")));
             // Domain Layer
             services.AddTransient<IConnpassReadOnlyDataRepository, ConnpassReadOnlyDataRepository>();
             services.AddSingleton<IConnpassDataStore, ConnpassDatastore>();

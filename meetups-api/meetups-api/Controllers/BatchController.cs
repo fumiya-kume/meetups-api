@@ -8,6 +8,12 @@ namespace meetups_api.Controllers
     public class BatchController
     {
         private IRefreshConnpassDataUsecase _usecase;
+
+        BatchController(
+            IRefreshConnpassDataUsecase refreshConnpassDataUsecase)
+        {
+            _usecase = refreshConnpassDataUsecase;
+        }
         
         [HttpGet("/RefreshEventData")]
         void RefreshEventData()
