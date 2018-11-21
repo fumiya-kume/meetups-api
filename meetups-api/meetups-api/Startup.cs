@@ -8,6 +8,7 @@ using meetupsApi.Models;
 using meetupsApi.Tests.Domain.Repository;
 using meetupsApi.Tests.Domain.Usecase;
 using meetupsApi.Tests.Repository;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace meetupsApi
 {
