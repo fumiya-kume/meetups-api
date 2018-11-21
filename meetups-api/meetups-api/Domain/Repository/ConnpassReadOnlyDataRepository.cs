@@ -16,7 +16,7 @@ namespace meetupsApi.Tests.Domain.Repository
             _connpassDatastore = connpassDatastore;
         }
 
-        public async Task<IEnumerable<ConnpassEventDataEntity>> LoadConnpassData()
+        public async Task<IEnumerable<ConnpassEventDataEntity>> LoadConnpassData(int page = 0)
         {
             var jsonData = await _connpassDatastore.LoadConnpassDataAsync(100);
             return jsonData.ConnpassEvents.Select(item => convert(item));
