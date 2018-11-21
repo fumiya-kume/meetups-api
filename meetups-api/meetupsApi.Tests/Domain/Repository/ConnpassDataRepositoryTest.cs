@@ -32,10 +32,10 @@ namespace meetupsApi.Tests.Domain.Repository
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
             var dummyConnpassData = new ConnpassMeetupJson();
-            dataStoreMoq.Setup(obj => obj.LoadConnpassDataAsync(100)).ReturnsAsync(dummyConnpassData);
+            dataStoreMoq.Setup(obj => obj.LoadConnpassDataAsync(100,0)).ReturnsAsync(dummyConnpassData);
             var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
             connpassDataRepository.LoadConnpassData();
-            dataStoreMoq.Verify(obj => obj.LoadConnpassDataAsync(100), Times.Once);
+            dataStoreMoq.Verify(obj => obj.LoadConnpassDataAsync(100,0), Times.Once);
         }
 
         [Fact]

@@ -20,11 +20,11 @@ namespace meetupsApi.Tests.Domain.Usecase
                 connpassDatabaseRepositoryMoq.Object
             );
 
-            connpassDataRepositoryMoq.Setup(obj => obj.LoadConnpassData());
-            
+            connpassDataRepositoryMoq.Setup(obj => obj.LoadConnpassData(0));
+
             usecase.execute();
-            
-            connpassDataRepositoryMoq.Verify(obj => obj.LoadConnpassData(), Times.Once);
+
+            connpassDataRepositoryMoq.Verify(obj => obj.LoadConnpassData(0), Times.Once);
         }
 
         [Fact]
@@ -48,12 +48,11 @@ namespace meetupsApi.Tests.Domain.Usecase
                 EventDescription = "詳細"
             };
             dummyData.Add(dummyEntity);
-            connpassDataRepositoryMoq.Setup(obj => obj.LoadConnpassData()).ReturnsAsync(dummyData);
-            
+            connpassDataRepositoryMoq.Setup(obj => obj.LoadConnpassData(0)).ReturnsAsync(dummyData);
+
             usecase.execute();
-            
-            connpassDatabaseRepositoryMoq.Verify(obj => obj.SaveEventData(dummyData),Times.Once);
-            
+
+            connpassDatabaseRepositoryMoq.Verify(obj => obj.SaveEventData(dummyData), Times.Once);
         }
     }
 }
