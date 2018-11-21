@@ -25,10 +25,23 @@ public class ConnpassDatabaseRepository : IConnpassDatabaseRepository
             if (exitsEntity(entity))
             {
                 _meetupsApiContext.ConnpassEventDataEntities.Update(entity);
-                return;
             }
+            else
+            {
+                _meetupsApiContext.ConnpassEventDataEntities.Add(entity);
+            }
+        }
 
-            _meetupsApiContext.ConnpassEventDataEntities.Add(entity);
+        if (_meetupsApiContext.Database.IsSqlServer())
+        {
+            _meetupsApiContext.Database.OpenConnection();
+            _meetupsApiContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT dbo.ConnpassEventDataEntities ON");
+            _meetupsApiContext.SaveChanges();
+            _meetupsApiContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT dbo.ConnpassEventDataEntities OFF");
+            _meetupsApiContext.Database.CloseConnection();
+        }
+        else
+        {
             _meetupsApiContext.SaveChanges();
         }
     }

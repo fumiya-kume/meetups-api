@@ -8,6 +8,7 @@ using meetupsApi.Models;
 using meetupsApi.Tests.Domain.Repository;
 using meetupsApi.Tests.Domain.Usecase;
 using meetupsApi.Tests.Repository;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace meetupsApi
 {
@@ -27,13 +28,20 @@ namespace meetupsApi
 
             services.AddDbContext<MeetupsApiContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("meetupsApiContext")));
+
             // Domain Layer
             services.AddTransient<IConnpassReadOnlyDataRepository, ConnpassReadOnlyDataRepository>();
-            services.AddSingleton<IConnpassDataStore, ConnpassDatastore>();
-            services.AddSingleton<IRefreshConnpassDataUsecase, RefreshConnpassDataUsecase>();
+            services.AddTransient<IConnpassDataStore, ConnpassDatastore>();
+            services.AddTransient<IRefreshConnpassDataUsecase, RefreshConnpassDataUsecase>();
 
             // InfraLayer
-            services.AddSingleton<IConnpassDatabaseRepository, ConnpassDatabaseRepository>();
+            services.AddTransient<IConnpassDatabaseRepository, ConnpassDatabaseRepository>();
+            services.AddTransient<MeetupsApiContext>();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Info {Title = "My API", Version = "v1"});
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +58,8 @@ namespace meetupsApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
         }
     }
 }

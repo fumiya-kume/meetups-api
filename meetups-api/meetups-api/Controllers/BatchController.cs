@@ -1,24 +1,40 @@
+using System;
+using System.Threading.Tasks;
 using meetupsApi.Tests.Domain.Usecase;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace meetups_api.Controllers
 {
     [Route("batch")]
     [ApiController]
-    public class BatchController
+    public class BatchController : ControllerBase
     {
         private IRefreshConnpassDataUsecase _usecase;
+        private readonly ILogger _logger;
 
-        BatchController(
-            IRefreshConnpassDataUsecase refreshConnpassDataUsecase)
+        public BatchController(
+            IRefreshConnpassDataUsecase refreshConnpassDataUsecase,
+            ILogger logger
+        )
         {
             _usecase = refreshConnpassDataUsecase;
+            _logger = logger;
         }
-        
-        [HttpPost]
-        void RefreshEventData()
+
+        [HttpGet]
+        public async Task<IActionResult> RefreshEventData()
         {
-            _usecase.execute();
+            try
+            {
+                await _usecase.execute();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(503);
+            }
+
+            return StatusCode(201);
         }
     }
 }
