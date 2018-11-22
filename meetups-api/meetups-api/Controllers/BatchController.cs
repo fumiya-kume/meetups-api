@@ -19,7 +19,7 @@ namespace meetups_api.Controllers
             _usecase = refreshConnpassDataUsecase;
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> RefreshEventData()
         {
             try
