@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using meetupsApi.Domain.Entity;
 
 namespace meetupsApi.Tests.Domain.Usecase
 {
@@ -19,8 +21,13 @@ namespace meetupsApi.Tests.Domain.Usecase
 
         public async Task execute()
         {
-            var data = await _connpassReadOnlyWebsiteDataRepository.LoadConnpassData();
-            _connpassDatabaseRepository.SaveEventData(data);
+            var data = new List<ConnpassEventDataEntity>();
+            for (var i = 0; i < 9; i++)
+            {
+                var result = await _connpassReadOnlyWebsiteDataRepository.LoadConnpassData(i);
+                result.ToList().ForEach(item => data.Add(item));
+            }
+            await _connpassDatabaseRepository.SaveEventData(data);
         }
     }
 }

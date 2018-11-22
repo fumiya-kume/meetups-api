@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using meetupsApi.Domain.Entity;
 using meetupsApi.Models;
 using meetupsApi.Tests.Domain.Usecase;
+using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account.Manage;
+using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.EntityFrameworkCore;
 
 public class ConnpassDatabaseRepository : IConnpassDatabaseRepository
@@ -18,31 +22,41 @@ public class ConnpassDatabaseRepository : IConnpassDatabaseRepository
     public bool exitsEntity(ConnpassEventDataEntity entity) =>
         _meetupsApiContext.ConnpassEventDataEntities.Count(item => item.Id == entity.Id) != 0;
 
-    public void SaveEventData(IEnumerable<ConnpassEventDataEntity> eventDataList)
+    public async Task SaveEventData(IEnumerable<ConnpassEventDataEntity> eventDataList)
     {
-        foreach (var entity in eventDataList)
+        eventDataList.GroupBy(item => item.Id).Select(list => list.First()).ToList().ForEach(item =>
         {
-            if (exitsEntity(entity))
+            if (exitsEntity(item))
             {
-                _meetupsApiContext.ConnpassEventDataEntities.Update(entity);
+                _meetupsApiContext.ConnpassEventDataEntities.Update(item);
             }
             else
             {
-                _meetupsApiContext.ConnpassEventDataEntities.Add(entity);
+                _meetupsApiContext.ConnpassEventDataEntities.Add(item);
             }
-        }
+        });
 
         if (_meetupsApiContext.Database.IsSqlServer())
         {
-            _meetupsApiContext.Database.OpenConnection();
-            _meetupsApiContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT dbo.ConnpassEventDataEntities ON");
-            _meetupsApiContext.SaveChanges();
-            _meetupsApiContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT dbo.ConnpassEventDataEntities OFF");
-            _meetupsApiContext.Database.CloseConnection();
+            try
+            {
+                _meetupsApiContext.Database.OpenConnection();
+                _meetupsApiContext.Database.ExecuteSqlCommand(
+                    "SET IDENTITY_INSERT dbo.ConnpassEventDataEntities ON");
+                _meetupsApiContext.SaveChanges();
+                _meetupsApiContext.Database.ExecuteSqlCommand(
+                    "SET IDENTITY_INSERT dbo.ConnpassEventDataEntities OFF");
+                _meetupsApiContext.Database.CloseConnection();
+            }
+            catch (Exception e)
+            {
+                _meetupsApiContext.Database.CloseConnection();
+                throw;
+            }
         }
         else
         {
-            _meetupsApiContext.SaveChanges();
+            await _meetupsApiContext.SaveChangesAsync();
         }
     }
 
