@@ -5,21 +5,21 @@ namespace meetupsApi.Tests.Domain.Usecase
 {
     public class RefreshConnpassDataUsecase : IRefreshConnpassDataUsecase
     {
-        private IConnpassReadOnlyDataRepository _connpassReadOnlyDataRepository;
+        private IConnpassReadOnlyWebsiteDataRepository _connpassReadOnlyWebsiteDataRepository;
         private readonly IConnpassDatabaseRepository _connpassDatabaseRepository;
 
         public RefreshConnpassDataUsecase(
-            IConnpassReadOnlyDataRepository connpassReadOnlyDataRepository,
+            IConnpassReadOnlyWebsiteDataRepository connpassReadOnlyWebsiteDataRepository,
             IConnpassDatabaseRepository connpassDatabaseRepository
         )
         {
-            _connpassReadOnlyDataRepository = connpassReadOnlyDataRepository;
+            _connpassReadOnlyWebsiteDataRepository = connpassReadOnlyWebsiteDataRepository;
             _connpassDatabaseRepository = connpassDatabaseRepository;
         }
 
         public async Task execute()
         {
-            var data = await _connpassReadOnlyDataRepository.LoadConnpassData();
+            var data = await _connpassReadOnlyWebsiteDataRepository.LoadConnpassData();
             _connpassDatabaseRepository.SaveEventData(data);
         }
     }

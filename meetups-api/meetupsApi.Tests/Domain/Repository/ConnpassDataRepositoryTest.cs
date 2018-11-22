@@ -15,15 +15,15 @@ namespace meetupsApi.Tests.Domain.Repository
         void ConnpassDataRepositoryが存在する()
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyWebsiteWebsiteDataRepository(dataStoreMoq.Object);
         }
 
         [Fact]
         void ConnpassDataRepositoryはIConnpassDataRepositoryを実装する()
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
-            var actual = connpassDataRepository as IConnpassReadOnlyDataRepository;
+            var connpassDataRepository = new ConnpassReadOnlyWebsiteWebsiteDataRepository(dataStoreMoq.Object);
+            var actual = connpassDataRepository as IConnpassReadOnlyWebsiteDataRepository;
             Assert.NotNull(actual);
         }
 
@@ -33,7 +33,7 @@ namespace meetupsApi.Tests.Domain.Repository
             var dataStoreMoq = new Mock<IConnpassDataStore>();
             var dummyConnpassData = new ConnpassMeetupJson();
             dataStoreMoq.Setup(obj => obj.LoadConnpassDataAsync(100,0)).ReturnsAsync(dummyConnpassData);
-            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyWebsiteWebsiteDataRepository(dataStoreMoq.Object);
             connpassDataRepository.LoadConnpassData();
             dataStoreMoq.Verify(obj => obj.LoadConnpassDataAsync(100,0), Times.Once);
         }
@@ -42,7 +42,7 @@ namespace meetupsApi.Tests.Domain.Repository
         void JsonDataをEntityに変換することができる()
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyWebsiteWebsiteDataRepository(dataStoreMoq.Object);
             var targetData = new ConnpassEvent();
             ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
         }
@@ -51,7 +51,7 @@ namespace meetupsApi.Tests.Domain.Repository
         void 変換されたDomainEntityにはタイトルが保存されている()
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyWebsiteWebsiteDataRepository(dataStoreMoq.Object);
             var dummyTitle = "";
             var targetData = new ConnpassEvent
             {
@@ -67,7 +67,7 @@ namespace meetupsApi.Tests.Domain.Repository
         void タイトルが存在しない場合はから文字が入っている(string dummyTitle)
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyWebsiteWebsiteDataRepository(dataStoreMoq.Object);
 
             var targetData = new ConnpassEvent
             {
@@ -81,7 +81,7 @@ namespace meetupsApi.Tests.Domain.Repository
         void 変換されたEntityにはURLが保存されている()
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyWebsiteWebsiteDataRepository(dataStoreMoq.Object);
             var dummyEventUrl = "www.yahoo.co.jp";
             var targetData = new ConnpassEvent
             {
@@ -97,7 +97,7 @@ namespace meetupsApi.Tests.Domain.Repository
         void イベントURLが存在しない場合は空文字が入っている(string dummyEventUrl)
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyWebsiteWebsiteDataRepository(dataStoreMoq.Object);
             var targetData = new ConnpassEvent
             {
                 title = dummyEventUrl
@@ -110,7 +110,7 @@ namespace meetupsApi.Tests.Domain.Repository
         void イベント詳細がEntityに含まれる()
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyWebsiteWebsiteDataRepository(dataStoreMoq.Object);
             var dummmyEventDescription = "Hello";
             var targetData = new ConnpassEvent
             {
@@ -126,7 +126,7 @@ namespace meetupsApi.Tests.Domain.Repository
         void イベント詳細に不正な値が含まれているときはから文字が返ってくる(string dummmyEventDescription)
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyWebsiteWebsiteDataRepository(dataStoreMoq.Object);
 
             var targetData = new ConnpassEvent
             {
@@ -140,7 +140,7 @@ namespace meetupsApi.Tests.Domain.Repository
         void イベントの開催される場所がEntityに含まれる()
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyWebsiteWebsiteDataRepository(dataStoreMoq.Object);
 
             var targetData = new ConnpassEvent
             {
@@ -156,7 +156,7 @@ namespace meetupsApi.Tests.Domain.Repository
         void イベントIDがEntityに含まれている()
         {
             var dataStoreMoq = new Mock<IConnpassDataStore>();
-            var connpassDataRepository = new ConnpassReadOnlyDataRepository(dataStoreMoq.Object);
+            var connpassDataRepository = new ConnpassReadOnlyWebsiteWebsiteDataRepository(dataStoreMoq.Object);
             var dummyEventId = 123;
             var targetData = new ConnpassEvent
             {

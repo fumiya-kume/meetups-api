@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace meetupsApi.Tests.Domain.Usecase
 {
-    public interface IConnpassReadOnlyDataRepository
+    public interface IConnpassReadOnlyWebsiteDataRepository
     {
         Task<IEnumerable<ConnpassEventDataEntity>> LoadConnpassData(int page = 0);
     }

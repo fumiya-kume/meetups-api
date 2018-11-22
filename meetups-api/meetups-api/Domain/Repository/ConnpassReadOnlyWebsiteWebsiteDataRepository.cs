@@ -7,11 +7,11 @@ using meetupsApi.Tests.Domain.Usecase;
 
 namespace meetupsApi.Tests.Domain.Repository
 {
-    public class ConnpassReadOnlyDataRepository : IConnpassReadOnlyDataRepository
+    public class ConnpassReadOnlyWebsiteWebsiteDataRepository : IConnpassReadOnlyWebsiteDataRepository
     {
         private readonly IConnpassDataStore _connpassDatastore;
 
-        public ConnpassReadOnlyDataRepository(IConnpassDataStore connpassDatastore)
+        public ConnpassReadOnlyWebsiteWebsiteDataRepository(IConnpassDataStore connpassDatastore)
         {
             _connpassDatastore = connpassDatastore;
         }
