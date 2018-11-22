@@ -11,18 +11,15 @@ namespace meetups_api.Controllers
     public class BatchController : ControllerBase
     {
         private IRefreshConnpassDataUsecase _usecase;
-        private readonly ILogger _logger;
 
         public BatchController(
-            IRefreshConnpassDataUsecase refreshConnpassDataUsecase,
-            ILogger logger
+            IRefreshConnpassDataUsecase refreshConnpassDataUsecase
         )
         {
             _usecase = refreshConnpassDataUsecase;
-            _logger = logger;
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> RefreshEventData()
         {
             try

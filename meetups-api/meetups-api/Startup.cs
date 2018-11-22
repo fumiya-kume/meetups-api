@@ -30,7 +30,7 @@ namespace meetupsApi
                 options.UseSqlServer(Configuration.GetConnectionString("meetupsApiContext")));
 
             // Domain Layer
-            services.AddTransient<IConnpassReadOnlyDataRepository, ConnpassReadOnlyDataRepository>();
+            services.AddTransient<IConnpassReadOnlyWebsiteDataRepository, ConnpassReadOnlyWebsiteWebsiteDataRepository>();
             services.AddTransient<IConnpassDataStore, ConnpassDatastore>();
             services.AddTransient<IRefreshConnpassDataUsecase, RefreshConnpassDataUsecase>();
 

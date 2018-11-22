@@ -13,24 +13,24 @@ namespace meetupsApi.Tests.Domain.Usecase
         [Fact]
         void 実行時にコンパスからデータを取得する()
         {
-            var connpassDataRepositoryMoq = new Mock<IConnpassReadOnlyDataRepository>();
+            var connpassDataRepositoryMoq = new Mock<IConnpassReadOnlyWebsiteDataRepository>();
             var connpassDatabaseRepositoryMoq = new Mock<IConnpassDatabaseRepository>();
             var usecase = new RefreshConnpassDataUsecase(
                 connpassDataRepositoryMoq.Object,
                 connpassDatabaseRepositoryMoq.Object
             );
 
-            connpassDataRepositoryMoq.Setup(obj => obj.LoadConnpassData());
-            
+            connpassDataRepositoryMoq.Setup(obj => obj.LoadConnpassData(0));
+
             usecase.execute();
-            
-            connpassDataRepositoryMoq.Verify(obj => obj.LoadConnpassData(), Times.Once);
+
+            connpassDataRepositoryMoq.Verify(obj => obj.LoadConnpassData(0), Times.Once);
         }
 
         [Fact]
         void コンパスから読み込まれたデータをDBに保存する()
         {
-            var connpassDataRepositoryMoq = new Mock<IConnpassReadOnlyDataRepository>();
+            var connpassDataRepositoryMoq = new Mock<IConnpassReadOnlyWebsiteDataRepository>();
             var connpassDatabaseRepositoryMoq = new Mock<IConnpassDatabaseRepository>();
             var usecase = new RefreshConnpassDataUsecase(
                 connpassDataRepositoryMoq.Object,
@@ -48,12 +48,11 @@ namespace meetupsApi.Tests.Domain.Usecase
                 EventDescription = "詳細"
             };
             dummyData.Add(dummyEntity);
-            connpassDataRepositoryMoq.Setup(obj => obj.LoadConnpassData()).ReturnsAsync(dummyData);
-            
+            connpassDataRepositoryMoq.Setup(obj => obj.LoadConnpassData(0)).ReturnsAsync(dummyData);
+
             usecase.execute();
-            
-            connpassDatabaseRepositoryMoq.Verify(obj => obj.SaveEventData(dummyData),Times.Once);
-            
+
+            connpassDatabaseRepositoryMoq.Verify(obj => obj.SaveEventData(dummyData), Times.Once);
         }
     }
 }

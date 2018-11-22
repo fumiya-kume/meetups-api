@@ -1,26 +1,33 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using meetupsApi.Domain.Entity;
 
 namespace meetupsApi.Tests.Domain.Usecase
 {
     public class RefreshConnpassDataUsecase : IRefreshConnpassDataUsecase
     {
-        private IConnpassReadOnlyDataRepository _connpassReadOnlyDataRepository;
+        private IConnpassReadOnlyWebsiteDataRepository _connpassReadOnlyWebsiteDataRepository;
         private readonly IConnpassDatabaseRepository _connpassDatabaseRepository;
 
         public RefreshConnpassDataUsecase(
-            IConnpassReadOnlyDataRepository connpassReadOnlyDataRepository,
+            IConnpassReadOnlyWebsiteDataRepository connpassReadOnlyWebsiteDataRepository,
             IConnpassDatabaseRepository connpassDatabaseRepository
         )
         {
-            _connpassReadOnlyDataRepository = connpassReadOnlyDataRepository;
+            _connpassReadOnlyWebsiteDataRepository = connpassReadOnlyWebsiteDataRepository;
             _connpassDatabaseRepository = connpassDatabaseRepository;
         }
 
         public async Task execute()
         {
-            var data = await _connpassReadOnlyDataRepository.LoadConnpassData();
-            _connpassDatabaseRepository.SaveEventData(data);
+            var data = new List<ConnpassEventDataEntity>();
+            for (var i = 0; i < 9; i++)
+            {
+                var result = await _connpassReadOnlyWebsiteDataRepository.LoadConnpassData(i);
+                result.ToList().ForEach(item => data.Add(item));
+            }
+            await _connpassDatabaseRepository.SaveEventData(data);
         }
     }
 }

@@ -7,18 +7,18 @@ using meetupsApi.Tests.Domain.Usecase;
 
 namespace meetupsApi.Tests.Domain.Repository
 {
-    public class ConnpassReadOnlyDataRepository : IConnpassReadOnlyDataRepository
+    public class ConnpassReadOnlyWebsiteWebsiteDataRepository : IConnpassReadOnlyWebsiteDataRepository
     {
         private readonly IConnpassDataStore _connpassDatastore;
 
-        public ConnpassReadOnlyDataRepository(IConnpassDataStore connpassDatastore)
+        public ConnpassReadOnlyWebsiteWebsiteDataRepository(IConnpassDataStore connpassDatastore)
         {
             _connpassDatastore = connpassDatastore;
         }
 
-        public async Task<IEnumerable<ConnpassEventDataEntity>> LoadConnpassData()
+        public async Task<IEnumerable<ConnpassEventDataEntity>> LoadConnpassData(int page = 0)
         {
-            var jsonData = await _connpassDatastore.LoadConnpassDataAsync(100);
+            var jsonData = await _connpassDatastore.LoadConnpassDataAsync(100, page);
             return jsonData.ConnpassEvents.Select(item => convert(item));
         }
 
