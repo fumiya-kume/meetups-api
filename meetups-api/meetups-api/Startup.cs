@@ -1,3 +1,4 @@
+using meetupsApi.HostedService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +43,8 @@ namespace meetupsApi
             {
                 options.SwaggerDoc("v1", new Info {Title = "My API", Version = "v1"});
             });
+
+            services.AddHostedService<RefreshConnpassDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
