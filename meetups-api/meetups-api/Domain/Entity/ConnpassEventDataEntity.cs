@@ -5,12 +5,10 @@ namespace meetupsApi.Domain.Entity
 {
     public class ConnpassEventDataEntity
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Key]
         public int Id { get; set; }
-        public string EventTitle { get; set; }
-        public string EventDescription { get; set; }
-        public string EventUrl { get; set; }
+        public string title { get; set; }
+        public string description { get; set; }
+        public string event_url { get; set; }
         public double Lon { get; set; }
         public double Lat { get; set; }
     }

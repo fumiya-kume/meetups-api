@@ -82,7 +82,7 @@ namespace meetupsApi.Tests.Repository.Data
                 var entity = new ConnpassEventDataEntity
                 {
                     Id = 12,
-                    EventTitle = "タイトル１"
+                    title = "タイトル１"
                 };
 
                 dummyEventData.Add(entity);
@@ -97,7 +97,7 @@ namespace meetupsApi.Tests.Repository.Data
                 var entity2 = new ConnpassEventDataEntity
                 {
                     Id = 12,
-                    EventTitle = "タイトル２"
+                    title = "タイトル２"
                 };
                 dummyEventData2.Add(entity2);
 
@@ -106,8 +106,8 @@ namespace meetupsApi.Tests.Repository.Data
                 Assert.Equal(1, mock.Context().ConnpassEventDataEntities.Count());
 
                 Assert.Equal(
-                    entity2.EventTitle,
-                    mock.Context().ConnpassEventDataEntities.First().EventTitle
+                    entity2.title,
+                    mock.Context().ConnpassEventDataEntities.First().title
                 );
             }
         }

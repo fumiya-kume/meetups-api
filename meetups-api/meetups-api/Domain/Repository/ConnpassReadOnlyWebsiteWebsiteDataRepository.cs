@@ -27,9 +27,9 @@ namespace meetupsApi.Tests.Domain.Repository
         {
             var entity = new ConnpassEventDataEntity();
             entity.Id = targetData.event_id;
-            entity.EventTitle = targetData.title ?? "";
-            entity.EventUrl = targetData.event_url ?? "";
-            entity.EventDescription = targetData.description ?? "";
+            entity.title = targetData.title ?? "";
+            entity.event_url = targetData.event_url ?? "";
+            entity.description = targetData.description ?? "";
 
             double ToDouble(
                 string value,
