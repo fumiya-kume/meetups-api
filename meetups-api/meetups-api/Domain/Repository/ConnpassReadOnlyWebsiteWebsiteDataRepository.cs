@@ -30,6 +30,27 @@ namespace meetupsApi.Tests.Domain.Repository
             entity.title = targetData.title ?? "";
             entity.event_url = targetData.event_url ?? "";
             entity.description = targetData.description ?? "";
+            entity.catchMesagge = targetData._catch;
+            entity.hash_tag = targetData.hash_tag;
+            entity.started_at = targetData.started_at;
+            entity.ended_at = targetData.ended_at;
+
+
+            int ToInt(
+                string value,
+                int defaultValue = 0)
+                => int.TryParse(value, out var i) ? int.Parse(value) : defaultValue;
+
+            entity.limit = targetData.limit ?? 0;
+            entity.accepted = targetData.accepted;
+            entity.waiting = targetData.waiting;
+            entity.updated_at = targetData.updated_at;
+
+            entity.event_type = targetData.event_type;
+            entity.address = targetData.address;
+            entity.owned_id = targetData.owner_id;
+            entity.owned_nickname = targetData.owner_nickname;
+            entity.owner_display_name = targetData.owner_display_name;
 
             double ToDouble(
                 string value,
