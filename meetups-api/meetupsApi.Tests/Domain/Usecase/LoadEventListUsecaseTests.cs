@@ -8,17 +8,20 @@ namespace meetupsApi.Tests.Domain.Usecase
 {
     public class LoadEventListUsecaseTests
     {
-        [Fact]
-        void 指定した個数でイベントを読み込もうとする()
+        [Theory]
+        [InlineData(100)]
+        [InlineData(500)]
+        [InlineData(1000)]
+        void 指定した個数でイベントを読み込もうとする(int count)
         {
             var connpassDatabseRepositoryMock = new Mock<IConnpassDatabaseRepository>();
             var loadEventListUsecase = new LoadEventListUsecase(connpassDatabseRepositoryMock.Object);
-            connpassDatabseRepositoryMock.Setup(obj => obj.loadEventList(300))
+            connpassDatabseRepositoryMock.Setup(obj => obj.loadEventList(count))
                 .ReturnsAsync(new List<ConnpassEventDataEntity>());
-            
-            loadEventListUsecase.Execute(100);
-            
-            connpassDatabseRepositoryMock.Verify(obj => obj.loadEventList(300));
+
+            loadEventListUsecase.Execute(count);
+
+            connpassDatabseRepositoryMock.Verify(obj => obj.loadEventList(count), Times.Once);
         }
     }
 }
