@@ -9,7 +9,9 @@ using meetupsApi.Models;
 using meetupsApi.Tests.Domain.Repository;
 using meetupsApi.Tests.Domain.Usecase;
 using meetupsApi.Tests.Repository;
+using Microsoft.Extensions.Hosting;
 using Swashbuckle.AspNetCore.Swagger;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace meetupsApi
 {
@@ -45,6 +47,7 @@ namespace meetupsApi
             });
 
             services.AddHostedService<RefreshConnpassDataService>();
+            services.AddSingleton<IHostedService, RefreshConnpassDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
