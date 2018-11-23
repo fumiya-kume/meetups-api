@@ -58,7 +58,7 @@ namespace meetupsApi.Tests.Domain.Repository
                 title = dummyTitle
             };
             ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
-            Assert.Equal(dummyTitle, item.EventTitle);
+            Assert.Equal(dummyTitle, item.title);
         }
 
         [Theory]
@@ -74,7 +74,7 @@ namespace meetupsApi.Tests.Domain.Repository
                 title = dummyTitle
             };
             ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
-            Assert.Equal("", item.EventTitle);
+            Assert.Equal("", item.title);
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace meetupsApi.Tests.Domain.Repository
                 event_url = dummyEventUrl
             };
             ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
-            Assert.Equal(dummyEventUrl, item.EventUrl);
+            Assert.Equal(dummyEventUrl, item.event_url);
         }
 
         [Theory]
@@ -103,7 +103,7 @@ namespace meetupsApi.Tests.Domain.Repository
                 title = dummyEventUrl
             };
             ConnpassEventDataEntity item = connpassDataRepository.convert(targetData);
-            Assert.Equal("", item.EventTitle);
+            Assert.Equal("", item.title);
         }
 
         [Fact]
@@ -117,7 +117,7 @@ namespace meetupsApi.Tests.Domain.Repository
                 description = dummmyEventDescription
             };
             var item = connpassDataRepository.convert(targetData);
-            Assert.Equal(dummmyEventDescription, item.EventDescription);
+            Assert.Equal(dummmyEventDescription, item.description);
         }
 
         [Theory]
@@ -133,7 +133,7 @@ namespace meetupsApi.Tests.Domain.Repository
                 description = dummmyEventDescription
             };
             var item = connpassDataRepository.convert(targetData);
-            Assert.Equal("", item.EventDescription);
+            Assert.Equal("", item.description);
         }
 
         [Fact]

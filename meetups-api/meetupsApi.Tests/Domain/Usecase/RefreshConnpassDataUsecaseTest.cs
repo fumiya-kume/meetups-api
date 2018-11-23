@@ -41,11 +41,11 @@ namespace meetupsApi.Tests.Domain.Usecase
             var dummyEntity = new ConnpassEventDataEntity
             {
                 Id = 0,
-                EventTitle = "タイトル",
-                EventUrl = "www.yahoo.co.jp",
+                title = "タイトル",
+                event_url = "www.yahoo.co.jp",
                 Lat = 1.1,
                 Lon = 1.1,
-                EventDescription = "詳細"
+                description = "詳細"
             };
             dummyData.Add(dummyEntity);
             connpassDataRepositoryMoq.Setup(obj => obj.LoadConnpassData(0)).ReturnsAsync(dummyData);
