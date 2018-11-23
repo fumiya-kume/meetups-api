@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using meetupsApi.Tests.Domain.Usecase;
@@ -6,30 +7,27 @@ using Microsoft.Extensions.Hosting;
 
 namespace meetupsApi.HostedService
 {
-    public class RefreshConnpassDataService: IHostedService, IDisposable
+    public class RefreshConnpassDataService : IHostedService, IDisposable
     {
-        private  Timer _timer;
-        private IRefreshConnpassDataUsecase _refreshConnpassDataUsecase;
+        private Timer _timer;
 
-        public RefreshConnpassDataService(
-            IRefreshConnpassDataUsecase refreshConnpassDataUsecase
-            )
+        private async void DoWork(object state)
         {
-            _refreshConnpassDataUsecase = refreshConnpassDataUsecase;
+            using (var client = new HttpClient())
+            {
+                var requestUrl = @"https://meetups-api.azurewebsites.net/batch";
+                var content = new StringContent("");
+                await client.PostAsync(requestUrl, content);
+            }
         }
 
-        private void DoWork(object state)
-        {
-            _refreshConnpassDataUsecase.execute();
-        }
-        
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _timer = new Timer(
                 DoWork,
                 null,
-                TimeSpan.Zero, 
-                TimeSpan.FromMinutes(30));
+                TimeSpan.Zero,
+                TimeSpan.FromSeconds(30));
             return Task.CompletedTask;
         }
 
