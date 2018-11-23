@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,9 +16,10 @@ namespace meetupsApi.HostedService
         {
             using (var client = new HttpClient())
             {
+                client.Timeout = TimeSpan.FromMinutes(5);
                 var requestUrl = @"https://meetups-api.azurewebsites.net/batch";
                 var content = new StringContent("");
-                await client.PostAsync(requestUrl, content);
+                var result = await client.PostAsync(requestUrl, content);
             }
         }
 
