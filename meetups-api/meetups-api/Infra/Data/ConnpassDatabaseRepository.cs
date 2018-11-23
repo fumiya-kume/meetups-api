@@ -60,6 +60,6 @@ public class ConnpassDatabaseRepository : IConnpassDatabaseRepository
         }
     }
 
-    public async Task<IList<ConnpassEventDataEntity>> loadEventList(int count)
+    public async Task<IList<ConnpassEventDataEntity>> loadEventList(int count = 300)
         => await _meetupsApiContext.ConnpassEventDataEntities.Take(count).ToListAsync();
 }
