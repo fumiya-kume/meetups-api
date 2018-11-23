@@ -23,5 +23,19 @@ namespace meetupsApi.Tests.Domain.Usecase
 
             connpassDatabseRepositoryMock.Verify(obj => obj.loadEventList(count), Times.Once);
         }
+        
+        [Fact]
+        void 数を指定しない場合は300個読み込まれる()
+        {
+            int count = 300;
+            var connpassDatabseRepositoryMock = new Mock<IConnpassDatabaseRepository>();
+            var loadEventListUsecase = new LoadEventListUsecase(connpassDatabseRepositoryMock.Object);
+            connpassDatabseRepositoryMock.Setup(obj => obj.loadEventList(count))
+                .ReturnsAsync(new List<ConnpassEventDataEntity>());
+
+            loadEventListUsecase.Execute();
+            connpassDatabseRepositoryMock.Verify(obj => obj.loadEventList(300), Times.Once);
+        }
+        
     }
 }
