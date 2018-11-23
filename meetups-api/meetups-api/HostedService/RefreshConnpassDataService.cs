@@ -27,7 +27,7 @@ namespace meetupsApi.HostedService
                 DoWork,
                 null,
                 TimeSpan.Zero,
-                TimeSpan.FromSeconds(30));
+                TimeSpan.FromMinutes(30));
             return Task.CompletedTask;
         }
 
