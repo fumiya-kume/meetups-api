@@ -111,21 +111,24 @@ namespace meetupsApi.Tests.Repository.Data
                 );
             }
         }
-        
-        [Fact]
-        async Task 最新の30件の勉強会を取得することができる()
+
+        [Theory]
+        [InlineData(10)]
+        [InlineData(100)]
+        [InlineData(300)]
+        async Task 最新の任意の件数の勉強会を取得することができる(int count)
         {
             using (var mock = new InmemoryDbTestMock<MeetupsApiContext>())
             {
                 using (var context = mock.Context())
                 {
-                    var dummyData = Enumerable.Range(1, 30).Select(id => new ConnpassEventDataEntity {Id = id});
+                    var dummyData = Enumerable.Range(1, count).Select(id => new ConnpassEventDataEntity {Id = id});
                     context.ConnpassEventDataEntities.AddRange(dummyData);
                     context.SaveChanges();
-                    
+
                     var connpassDatabaseRepository = new ConnpassDatabaseRepository(context);
-                    IList<ConnpassEventDataEntity> eventList = await connpassDatabaseRepository.loadEventList(10);
-                    Assert.Equal(10,eventList.Count);
+                    var eventList = await connpassDatabaseRepository.loadEventList(count);
+                    Assert.Equal(count, eventList.Count);
                 }
             }
         }
