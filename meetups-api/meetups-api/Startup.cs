@@ -1,3 +1,4 @@
+using meetupsApi.Domain.Usecase;
 using meetupsApi.HostedService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,9 +34,11 @@ namespace meetupsApi
                 options.UseSqlServer(Configuration.GetConnectionString("meetupsApiContext")));
 
             // Domain Layer
-            services.AddTransient<IConnpassReadOnlyWebsiteDataRepository, ConnpassReadOnlyWebsiteWebsiteDataRepository>();
+            services
+                .AddTransient<IConnpassReadOnlyWebsiteDataRepository, ConnpassReadOnlyWebsiteWebsiteDataRepository>();
             services.AddTransient<IConnpassDataStore, ConnpassDatastore>();
             services.AddTransient<IRefreshConnpassDataUsecase, RefreshConnpassDataUsecase>();
+            services.AddTransient<ILoadEventListUsecase, LoadEventListUsecase>();
 
             // InfraLayer
             services.AddTransient<IConnpassDatabaseRepository, ConnpassDatabaseRepository>();
