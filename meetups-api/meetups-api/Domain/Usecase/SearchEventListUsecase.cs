@@ -1,6 +1,8 @@
-namespace meetupsApi.Tests.Domain.Usecase
+using meetupsApi.Tests.Domain.Usecase;
+
+namespace meetupsApi.Domain.Usecase
 {
-    public class SearchEventListUsecase
+    public class SearchEventListUsecase : ISearchEventListUsecase
     {
         private readonly IConnpassDatabaseRepository _connpassDatabaseRepository;
 

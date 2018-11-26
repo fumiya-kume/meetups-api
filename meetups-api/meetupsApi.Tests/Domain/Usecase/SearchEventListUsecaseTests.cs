@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using meetupsApi.Domain.Usecase;
 using Moq;
 using Xunit;
 
