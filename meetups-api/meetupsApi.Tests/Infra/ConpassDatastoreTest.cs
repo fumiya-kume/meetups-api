@@ -8,7 +8,7 @@ namespace meetupsApi.Tests.Repository
 {
     public class ConpassDatastoreTest
     {
-        [Fact]
+        [Fact(Skip = "CIでは実行しない")]
         async void Connpassから受信したデータをパースすることができる()
         {
             var client = new ConnpassDatastore();
@@ -16,7 +16,7 @@ namespace meetupsApi.Tests.Repository
             Assert.NotNull(connpassData);
         }
 
-        [Fact]
+        [Fact(Skip = "CIでは実行しない")]
         async void Connpassの件数を指定してデータを取得することができる()
         {
             var client = new ConnpassDatastore();
@@ -24,7 +24,7 @@ namespace meetupsApi.Tests.Repository
             Assert.Equal(99, connpassData.ConnpassEvents.Length);
         }
 
-        [Fact]
+        [Fact(Skip = "CIでは実行しない")]
         void ConnpassDataStoreはIConnpassDataStoreを継承している()
         {
             var target = new ConnpassDatastore();
