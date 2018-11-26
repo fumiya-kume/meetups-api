@@ -157,5 +157,30 @@ namespace meetupsApi.Tests.Repository.Data
                 }
             }
         }
+
+        [Theory]
+        [InlineData("Xamarin", "Xamarin", 1)]
+        [InlineData("Xamarin", "〜Xamarin", 1)]
+        [InlineData("Xamarin", "Xamarin〜", 1)]
+        [InlineData("Xamarin", "〜", 0)]
+        async Task イベント詳細に含まれるキーワード検索することができる(string targetKeyword, string dummyDescription, int searchResultCount)
+        {
+            using (var mock = new InmemoryDbTestMock<MeetupsApiContext>())
+            {
+                using (var context = mock.Context())
+                {
+                    var dummyData = new List<ConnpassEventDataEntity>();
+                    dummyData.Add(new ConnpassEventDataEntity {description = dummyDescription});
+
+                    context.ConnpassEventDataEntities.AddRange(dummyData);
+                    context.SaveChanges();
+
+                    var connpassDatabaseRepository = new ConnpassDatabaseRepository(context);
+                    var searchResult = await connpassDatabaseRepository.SearchEvent(targetKeyword);
+
+                    Assert.Equal(searchResultCount, searchResult.Count);
+                }
+            }
+        }
     }
 }
