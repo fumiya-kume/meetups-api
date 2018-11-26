@@ -1,7 +1,11 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using meetupsApi.Domain.Entity;
+
 namespace meetupsApi.Domain.Usecase
 {
     public interface ISearchEventListUsecase
     {
-        void Execute(string searchKeyword = "");
+        Task<IList<ConnpassEventDataEntity>> Execute(string searchKeyword = "");
     }
 }

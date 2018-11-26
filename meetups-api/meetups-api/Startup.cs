@@ -37,7 +37,9 @@ namespace meetupsApi
             services
                 .AddTransient<IConnpassReadOnlyWebsiteDataRepository, ConnpassReadOnlyWebsiteWebsiteDataRepository>();
             services.AddTransient<IConnpassDataStore, ConnpassDatastore>();
+
             services.AddTransient<IRefreshConnpassDataUsecase, RefreshConnpassDataUsecase>();
+            services.AddTransient<ISearchEventListUsecase, SearchEventListUsecase>();
             services.AddTransient<ILoadEventListUsecase, LoadEventListUsecase>();
 
             // InfraLayer

@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using meetupsApi.Domain.Entity;
 using meetupsApi.Tests.Domain.Usecase;
 
 namespace meetupsApi.Domain.Usecase
@@ -13,9 +16,9 @@ namespace meetupsApi.Domain.Usecase
             _connpassDatabaseRepository = connpassDatabaseRepository;
         }
 
-        public void Execute(string searchKeyword = "")
+        public async Task<IList<ConnpassEventDataEntity>> Execute(string searchKeyword = "")
         {
-            _connpassDatabaseRepository.SearchEvent(searchKeyword);
+            return await _connpassDatabaseRepository.SearchEvent(searchKeyword);
         }
     }
 }
