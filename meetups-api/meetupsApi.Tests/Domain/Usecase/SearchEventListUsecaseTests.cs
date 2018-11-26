@@ -20,21 +20,36 @@ namespace meetupsApi.Tests.Domain.Usecase
             var connpassDatabaseRepositoryMoq = new Mock<IConnpassDatabaseRepository>();
             var usecase = new SearchEventListUsecase(connpassDatabaseRepositoryMoq.Object);
         }
+
+        [Fact]
+        void キーワード実行するとDatabaseRepositoryの検索するメソッドを実行する()
+        {
+            var connpassDatabaseRepositoryMoq = new Mock<IConnpassDatabaseRepository>();
+            var searchKeyword = "hoge";
+            connpassDatabaseRepositoryMoq.Setup(obj => obj.SearchEvent(searchKeyword));
+
+            var usecase = new SearchEventListUsecase(connpassDatabaseRepositoryMoq.Object);
+
+            usecase.Execute(searchKeyword);
+
+            connpassDatabaseRepositoryMoq.Verify(obj => obj.SearchEvent(searchKeyword), Times.Once);
+        }
     }
 
     class SearchEventListUsecase
     {
         private readonly IConnpassDatabaseRepository _connpassDatabaseRepository;
+
         public SearchEventListUsecase(
             IConnpassDatabaseRepository connpassDatabaseRepository
-            )
+        )
         {
             _connpassDatabaseRepository = connpassDatabaseRepository;
         }
 
-        public void Execute()
+        public void Execute(string searchKeyword = "")
         {
-            
+            _connpassDatabaseRepository.SearchEvent(searchKeyword);
         }
     }
 }
