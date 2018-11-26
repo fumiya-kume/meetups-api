@@ -62,4 +62,10 @@ public class ConnpassDatabaseRepository : IConnpassDatabaseRepository
 
     public async Task<IList<ConnpassEventDataEntity>> loadEventList(int count = 300)
         => await _meetupsApiContext.ConnpassEventDataEntities.Take(count).ToListAsync();
+
+    public async Task<IList<ConnpassEventDataEntity>> SearchEvent(string searchKeyword)
+        => await _meetupsApiContext
+            .ConnpassEventDataEntities
+            .Where(entity => entity.title.Contains(searchKeyword) || entity.description.Contains(searchKeyword))
+            .ToListAsync();
 }

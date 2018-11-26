@@ -9,5 +9,6 @@ namespace meetupsApi.Tests.Domain.Usecase
     {
         Task SaveEventData(IEnumerable<ConnpassEventDataEntity> eventDataList);
         Task<IList<ConnpassEventDataEntity>> loadEventList(int count = 300);
+        Task<IList<ConnpassEventDataEntity>> SearchEvent(string searchKeyword);
     }
 }
