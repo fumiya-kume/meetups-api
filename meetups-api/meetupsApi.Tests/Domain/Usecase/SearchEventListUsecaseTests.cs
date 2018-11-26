@@ -49,21 +49,4 @@ namespace meetupsApi.Tests.Domain.Usecase
             connpassDatabaseRepositoryMoq.Verify(obj => obj.SearchEvent(searchKeyword), Times.Once);
         }
     }
-
-    class SearchEventListUsecase
-    {
-        private readonly IConnpassDatabaseRepository _connpassDatabaseRepository;
-
-        public SearchEventListUsecase(
-            IConnpassDatabaseRepository connpassDatabaseRepository
-        )
-        {
-            _connpassDatabaseRepository = connpassDatabaseRepository;
-        }
-
-        public void Execute(string searchKeyword = "")
-        {
-            _connpassDatabaseRepository.SearchEvent(searchKeyword);
-        }
-    }
 }
