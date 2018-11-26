@@ -34,6 +34,20 @@ namespace meetupsApi.Tests.Domain.Usecase
 
             connpassDatabaseRepositoryMoq.Verify(obj => obj.SearchEvent(searchKeyword), Times.Once);
         }
+
+        [Fact]
+        void キーワードが指定されていない場合は空文字で検索をする()
+        {
+            var connpassDatabaseRepositoryMoq = new Mock<IConnpassDatabaseRepository>();
+            var searchKeyword = "";
+            connpassDatabaseRepositoryMoq.Setup(obj => obj.SearchEvent(searchKeyword));
+
+            var usecase = new SearchEventListUsecase(connpassDatabaseRepositoryMoq.Object);
+
+            usecase.Execute(searchKeyword);
+
+            connpassDatabaseRepositoryMoq.Verify(obj => obj.SearchEvent(searchKeyword), Times.Once);
+        }
     }
 
     class SearchEventListUsecase
