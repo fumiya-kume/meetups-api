@@ -41,5 +41,10 @@ namespace meetupsApi.Tests.Repository
 
             return JsonConvert.DeserializeObject<ConnpassMeetupJson>(json);
         }
+
+        public Task<ConnpassMeetupJson> LoadSpecificConnpassDataAsync(int start = 1)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
