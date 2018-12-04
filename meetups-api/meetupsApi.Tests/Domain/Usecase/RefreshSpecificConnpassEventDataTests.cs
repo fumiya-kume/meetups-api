@@ -12,8 +12,9 @@ namespace meetupsApi.Tests.Domain.Usecase
         {
             var ConnpassDatastoreMoq = new Mock<IConnpassDataStore>();
             var ConnpassDatabaseRepositoryMoq = new Mock<IConnpassDatabaseRepository>();
-            
-            var usecase = new RefreshSpecificConnpassEventData(ConnpassDatastoreMoq.Object,ConnpassDatabaseRepositoryMoq.Object);
+
+            var usecase =
+                new RefreshSpecificConnpassEventData(ConnpassDatastoreMoq.Object, ConnpassDatabaseRepositoryMoq.Object);
         }
 
         [Fact]
@@ -21,14 +22,36 @@ namespace meetupsApi.Tests.Domain.Usecase
         {
             var ConnpassDatastoreMoq = new Mock<IConnpassDataStore>();
             var ConnpassDatabaseRepositoryMoq = new Mock<IConnpassDatabaseRepository>();
-            
-            var usecase = new RefreshSpecificConnpassEventData(ConnpassDatastoreMoq.Object,ConnpassDatabaseRepositoryMoq.Object);
 
-            ConnpassDatastoreMoq.Setup(obj => obj.LoadSpecificConnpassDataAsync(1)).ReturnsAsync(new ConnpassMeetupJson());
+            var usecase =
+                new RefreshSpecificConnpassEventData(ConnpassDatastoreMoq.Object, ConnpassDatabaseRepositoryMoq.Object);
+
+            ConnpassDatastoreMoq.Setup(obj => obj.LoadSpecificConnpassDataAsync(1))
+                .ReturnsAsync(new ConnpassMeetupJson());
 
             usecase.Execute();
-            
-            ConnpassDatastoreMoq.Verify(obj => obj.LoadSpecificConnpassDataAsync(1),Times.Once);
+
+            ConnpassDatastoreMoq.Verify(obj => obj.LoadSpecificConnpassDataAsync(1), Times.Once);
+        }
+
+        [Theory]
+        [InlineData(10)]
+        [InlineData(50)]
+        [InlineData(100)]
+        void 読み込み開始場所を指定することができる(int startPosition)
+        {
+            var ConnpassDatastoreMoq = new Mock<IConnpassDataStore>();
+            var ConnpassDatabaseRepositoryMoq = new Mock<IConnpassDatabaseRepository>();
+
+            var usecase =
+                new RefreshSpecificConnpassEventData(ConnpassDatastoreMoq.Object, ConnpassDatabaseRepositoryMoq.Object);
+
+            ConnpassDatastoreMoq.Setup(obj => obj.LoadSpecificConnpassDataAsync(startPosition))
+                .ReturnsAsync(new ConnpassMeetupJson());
+
+            usecase.Execute(startPosition);
+
+            ConnpassDatastoreMoq.Verify(obj => obj.LoadSpecificConnpassDataAsync(startPosition), Times.Once);
         }
     }
 
@@ -38,17 +61,17 @@ namespace meetupsApi.Tests.Domain.Usecase
         private readonly IConnpassDatabaseRepository _connpassDatabaseRepository;
 
         public RefreshSpecificConnpassEventData(
-            IConnpassDataStore connpassDataStore, 
+            IConnpassDataStore connpassDataStore,
             IConnpassDatabaseRepository connpassDatabaseRepository
-            )
+        )
         {
             _connpassDataStore = connpassDataStore;
             _connpassDatabaseRepository = connpassDatabaseRepository;
         }
 
-        public void Execute()
+        public void Execute(int startPosition = 1)
         {
-            _connpassDataStore.LoadSpecificConnpassDataAsync();
+            _connpassDataStore.LoadSpecificConnpassDataAsync(startPosition);
         }
     }
 }
