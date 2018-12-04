@@ -8,7 +8,7 @@ namespace meetupsApi.Domain.Usecase.RefreshConnpassDataUsecase
 {
     public class RefreshConnpassDataUsecase : IRefreshConnpassDataUsecase
     {
-        private IConnpassReadOnlyWebsiteDataRepository _connpassReadOnlyWebsiteDataRepository;
+        private readonly IConnpassReadOnlyWebsiteDataRepository _connpassReadOnlyWebsiteDataRepository;
         private readonly IConnpassDatabaseRepository _connpassDatabaseRepository;
 
         public RefreshConnpassDataUsecase(
