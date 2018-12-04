@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using meetupsApi.Domain.Entity;
+using meetupsApi.Domain.Usecase;
 using meetupsApi.Domain.Usecase.RefreshConnpassDataUsecase;
 using meetupsApi.JsonEntity;
 using Moq;

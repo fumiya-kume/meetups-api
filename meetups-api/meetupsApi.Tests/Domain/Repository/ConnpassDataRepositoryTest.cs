@@ -1,5 +1,6 @@
 using System;
 using meetupsApi.Domain.Entity;
+using meetupsApi.Domain.Usecase;
 using meetupsApi.JsonEntity;
 using meetupsApi.Tests.Domain.Usecase;
 using meetupsApi.Tests.Repository;

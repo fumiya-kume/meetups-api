@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using meetupsApi.Domain.Entity;
+using meetupsApi.Domain.Usecase;
 using meetupsApi.JsonEntity;
 using meetupsApi.Tests.Domain.Usecase;
 
@@ -20,6 +21,11 @@ namespace meetupsApi.Tests.Domain.Repository
         {
             var jsonData = await _connpassDatastore.LoadConnpassDataAsync(100, page);
             return jsonData.ConnpassEvents.Select(item => convert(item));
+        }
+
+        public Task<IEnumerable<ConnpassEventDataEntity>> LoadSpecificConnpassDataAsync(int start = 1)
+        {
+            throw new System.NotImplementedException();
         }
 
 
