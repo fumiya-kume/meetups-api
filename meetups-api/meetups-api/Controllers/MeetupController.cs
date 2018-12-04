@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using meetupsApi.Domain.Usecase;
+using meetupsApi.Domain.Usecase.LoadEventList;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.Extensions.Logging;

@@ -1,4 +1,5 @@
 using meetupsApi.Domain.Usecase;
+using meetupsApi.Domain.Usecase.LoadEventList;
 using meetupsApi.HostedService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
