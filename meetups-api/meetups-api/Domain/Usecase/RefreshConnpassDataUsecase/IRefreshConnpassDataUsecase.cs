@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 
-namespace meetupsApi.Tests.Domain.Usecase
+namespace meetupsApi.Domain.Usecase.RefreshConnpassDataUsecase
 {
     public interface IRefreshConnpassDataUsecase
     {
-        Task execute();
+        Task Execute();
     }
 }
