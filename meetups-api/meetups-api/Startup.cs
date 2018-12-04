@@ -2,6 +2,7 @@ using meetupsApi.Domain.Usecase;
 using meetupsApi.Domain.Usecase.LoadEventList;
 using meetupsApi.Domain.Usecase.RefreshConnpassDataUsecase;
 using meetupsApi.HostedService;
+using meetupsApi.Infra;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
