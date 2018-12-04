@@ -25,16 +25,16 @@ namespace meetupsApi.Tests.Domain.Usecase
         }
         
         [Fact]
-        void 数を指定しない場合は300個読み込まれる()
+        void 数を指定しない場合は1500個読み込まれる()
         {
-            int count = 300;
+            int count = 1500;
             var connpassDatabseRepositoryMock = new Mock<IConnpassDatabaseRepository>();
             var loadEventListUsecase = new LoadEventListUsecase(connpassDatabseRepositoryMock.Object);
             connpassDatabseRepositoryMock.Setup(obj => obj.loadEventList(count))
                 .ReturnsAsync(new List<ConnpassEventDataEntity>());
 
             loadEventListUsecase.Execute();
-            connpassDatabseRepositoryMock.Verify(obj => obj.loadEventList(300), Times.Once);
+            connpassDatabseRepositoryMock.Verify(obj => obj.loadEventList(count), Times.Once);
         }
         
     }

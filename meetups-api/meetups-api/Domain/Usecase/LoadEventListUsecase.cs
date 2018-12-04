@@ -15,7 +15,7 @@ namespace meetupsApi.Domain.Usecase
              _connpassDatabaseRepository = connpassDatabaseRepository;
          }
  
-         public async Task<List<ConnpassEventDataEntity>> Execute(int count = 300)
+         public async Task<List<ConnpassEventDataEntity>> Execute(int count = 1500)
          {
              return (await _connpassDatabaseRepository.loadEventList(count)).ToList();
          }
