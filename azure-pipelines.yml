@@ -16,7 +16,7 @@ steps:
 - script: dotnet build **/*.sln --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
-- script: dotnet test <test-project> --logger trx
+- script: dotnet test **/*.sln --logger trx
 - task: PublishTestResults@2
   condition: succeededOrFailed()
   inputs:
