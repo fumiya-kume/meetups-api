@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'Self-Hosted-Linux'
+  vmImage: 'Hosted macOS'
 
 variables:
   buildConfiguration: 'Release'
