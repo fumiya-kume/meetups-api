@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using meetupsApi.Domain.Entity;
 using meetupsApi.Domain.Usecase;
+using meetupsApi.Domain.Usecase.LoadEventList;
 using Moq;
 using Xunit;
 
@@ -36,6 +37,6 @@ namespace meetupsApi.Tests.Domain.Usecase
             loadEventListUsecase.Execute();
             connpassDatabseRepositoryMock.Verify(obj => obj.loadEventList(count), Times.Once);
         }
-        
+       
     }
 }

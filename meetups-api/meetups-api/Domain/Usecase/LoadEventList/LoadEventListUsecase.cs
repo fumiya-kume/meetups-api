@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using meetupsApi.Domain.Entity;
 using meetupsApi.Tests.Domain.Usecase;
 
-namespace meetupsApi.Domain.Usecase
+namespace meetupsApi.Domain.Usecase.LoadEventList
 {
     public class LoadEventListUsecase : ILoadEventListUsecase
      {

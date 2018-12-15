@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using meetupsApi.Domain.Usecase.RefreshConnpassDataUsecase;
 using meetupsApi.Tests.Domain.Usecase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,7 @@ namespace meetups_api.Controllers
         {
             try
             {
-                await _usecase.execute();
+                await _usecase.Execute();
             }
             catch (Exception e)
             {

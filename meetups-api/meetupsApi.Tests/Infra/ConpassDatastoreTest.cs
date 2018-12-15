@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using meetupsApi.Infra;
 using meetupsApi.Tests.Domain.Repository;
 using Xunit;
 
@@ -29,6 +31,14 @@ namespace meetupsApi.Tests.Repository
         {
             var target = new ConnpassDatastore();
             Assert.True(target is IConnpassDataStore);
+        }
+
+        [Fact(Skip = "CI では実行しない")]
+        async Task Connpassの開始地点を指定してイベント情報を取得することができる()
+        {
+            var client = new ConnpassDatastore();
+            var connpassData = await client.LoadSpecificConnpassDataAsync(100);
+            Assert.Equal(10, connpassData.ConnpassEvents.Length);
         }
     }
 }

@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using meetupsApi.Domain.Entity;
+using meetupsApi.Tests.Domain.Usecase;
 
-namespace meetupsApi.Tests.Domain.Usecase
+namespace meetupsApi.Domain.Usecase.RefreshConnpassDataUsecase
 {
     public class RefreshConnpassDataUsecase : IRefreshConnpassDataUsecase
     {
-        private IConnpassReadOnlyWebsiteDataRepository _connpassReadOnlyWebsiteDataRepository;
+        private readonly IConnpassReadOnlyWebsiteDataRepository _connpassReadOnlyWebsiteDataRepository;
         private readonly IConnpassDatabaseRepository _connpassDatabaseRepository;
 
         public RefreshConnpassDataUsecase(
@@ -19,7 +20,7 @@ namespace meetupsApi.Tests.Domain.Usecase
             _connpassDatabaseRepository = connpassDatabaseRepository;
         }
 
-        public async Task execute()
+        public async Task Execute()
         {
             var data = new List<ConnpassEventDataEntity>();
             for (var i = 0; i < 9; i++)

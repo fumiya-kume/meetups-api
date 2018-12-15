@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using meetupsApi.Domain.Entity;
+using meetupsApi.Domain.Usecase;
+using meetupsApi.Domain.Usecase.RefreshConnpassDataUsecase;
 using meetupsApi.JsonEntity;
 using Moq;
 using Xunit;
@@ -22,7 +24,7 @@ namespace meetupsApi.Tests.Domain.Usecase
 
             connpassDataRepositoryMoq.Setup(obj => obj.LoadConnpassData(0));
 
-            usecase.execute();
+            usecase.Execute();
 
             connpassDataRepositoryMoq.Verify(obj => obj.LoadConnpassData(0), Times.Once);
         }
@@ -50,7 +52,7 @@ namespace meetupsApi.Tests.Domain.Usecase
             dummyData.Add(dummyEntity);
             connpassDataRepositoryMoq.Setup(obj => obj.LoadConnpassData(0)).ReturnsAsync(dummyData);
 
-            usecase.execute();
+            usecase.Execute();
 
             connpassDatabaseRepositoryMoq.Verify(obj => obj.SaveEventData(dummyData), Times.Once);
         }
