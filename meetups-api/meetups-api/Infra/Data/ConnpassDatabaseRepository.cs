@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using meetupsApi.Domain.Entity;
 using meetupsApi.Models;
 using meetupsApi.Tests.Domain.Usecase;
-using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account.Manage;
-using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.EntityFrameworkCore;
 
 public class ConnpassDatabaseRepository : IConnpassDatabaseRepository
